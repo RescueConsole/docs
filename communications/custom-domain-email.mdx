@@ -1,0 +1,58 @@
+---
+title: "Sending Email from Your Own Domain in RescueConsole"
+sidebarTitle: "Custom Domain Email"
+description: "Verify your rescue's domain to send email as yourself, improve deliverability, and give adopters and donors a sender address they recognize and trust."
+---
+
+When RescueConsole sends email on your behalf, you can choose between two options: sending from a RescueConsole address, or verifying your own domain and sending as yourself. If your rescue's address is `adoptions@happypawsrescue.org`, that is the address your adopters and donors see in their inbox — not a system address they do not recognize. Your own domain also improves deliverability, because email providers treat messages from an authenticated domain more favorably than messages from a shared sending platform.
+
+## Your two sending options
+
+<Tabs>
+  <Tab title="Send via RescueConsole's domain">
+    Without any extra setup, RescueConsole sends your outgoing messages from a `noreply` address on its own domain. Your messages go out immediately, and replies route back into the right inbox. This is the default for new accounts and works well while you are getting started.
+
+    The sender address will not match your rescue's own email address, which some recipients may notice. Deliverability is managed by RescueConsole on your behalf.
+  </Tab>
+  <Tab title="Send from your own domain">
+    After you verify your domain, RescueConsole sends outgoing messages as your own address — for example, `adoptions@happypawsrescue.org`. Recipients see your rescue's name and address, replies thread correctly, and your domain's reputation contributes to deliverability.
+
+    Verification requires adding a few DNS records to your domain. The setup takes a few minutes and propagation usually completes within an hour.
+  </Tab>
+</Tabs>
+
+## How inbound mail works
+
+<Note>
+  Inbound mail arrives by forwarding. You keep publishing the address you already use — on your website, on flyers, in your email signature — and set it to forward to the unique inbound address RescueConsole gives each of your inboxes. Nothing changes for the people who write to you.
+</Note>
+
+RescueConsole gives every inbox a unique inbound forwarding address when you create it. Any message sent to your published address and forwarded to that address arrives in the correct inbox and starts or continues the right conversation.
+
+## Setting up custom domain sending
+
+<Steps>
+  <Step title="Open your Communications settings">
+    In RescueConsole, go to **Settings → Communications**. Under **Sending domain**, select **Verify your own domain**.
+  </Step>
+  <Step title="Enter your domain">
+    Type the domain you want to send from — for example, `happypawsrescue.org`. RescueConsole will generate the DNS records you need to add.
+  </Step>
+  <Step title="Add the DNS records to your domain">
+    Copy the DNS records RescueConsole provides and add them in your domain registrar or DNS host. The records typically include a TXT record for domain ownership verification and one or more records to authorize RescueConsole to send on your behalf. Your registrar's support documentation can walk you through where to paste them if you are not sure.
+  </Step>
+  <Step title="Wait for propagation and verify">
+    DNS changes propagate across the internet, usually within a few minutes to an hour. Return to **Settings → Communications** and click **Verify** to confirm that RescueConsole can see your records. A green checkmark means you are ready to send.
+  </Step>
+  <Step title="Set your sending address per inbox">
+    Once your domain is verified, go to each inbox and set the **From address** to the address you want that inbox to send as — for example, `adoptions@happypawsrescue.org` for the adoptions inbox and `fosters@happypawsrescue.org` for the foster inbox.
+  </Step>
+</Steps>
+
+## Personal signatures
+
+Each team member can add a personal signature to their account. When they send a message from any inbox, their signature is appended automatically. Signatures support rich text, so you can include your name, title, phone number, and a link to your rescue's website. Personal signatures work whether you are sending from RescueConsole's domain or your own.
+
+## Why your own domain matters
+
+Using your own domain gives your recipients a familiar sender address — one that matches the website they just applied on and the address they have saved in their contacts. Email providers use domain authentication to judge whether to deliver a message to the inbox or filter it as spam. Sending from an authenticated domain you control gives your messages the best chance of arriving where they belong.

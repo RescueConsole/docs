@@ -1,0 +1,124 @@
+---
+title: "RescueConsole Webhooks: Zapier, Make, and Custom Endpoints"
+sidebarTitle: "Webhooks"
+description: "RescueConsole POSTs a JSON payload to your URL when records change. Connect to Zapier, Make, or your own endpoint — no integration code required."
+---
+
+Webhooks let RescueConsole push a notification to your systems the moment something changes — an animal's status is updated, a donation is recorded, a person submits an application. Instead of polling RescueConsole repeatedly to check for changes, your endpoint receives a JSON payload the instant the event happens.
+
+<Note>
+  Webhooks work with Zapier and Make without writing any code. Both platforms give you a URL to paste into RescueConsole, and their built-in webhook triggers handle the rest.
+</Note>
+
+## What triggers a webhook
+
+RescueConsole sends a webhook when records change across all workspaces. Events that trigger payloads include changes to:
+
+- **Animals** — status updates, intake, adoptions, fosters, medical records
+- **People** — new records, role changes, application decisions
+- **Donations** — gifts recorded or updated, recurring donation changes
+- **Organizations** — new or updated organization records
+- **Events** — event published, updated, or cancelled
+- **Shifts** — shift booked, cancelled, or signed off
+- **Form submissions** — new submission received on any of your forms
+
+Each payload identifies the event type, the record that changed, and a timestamp so your receiving system knows exactly what happened and when.
+
+## What a webhook payload looks like
+
+RescueConsole posts JSON to your endpoint. The payload includes the event type, the record type and ID, and the time the event occurred. Here is an example of what an animal-updated event looks like:
+
+```json
+{
+  "event": "animal.updated",
+  "id": "evt_01j9xkz4m2v8p3qr5t6w",
+  "timestamp": "2026-09-17T14:23:08Z",
+  "data": {
+    "type": "animal",
+    "id": "A00142",
+    "changes": {
+      "status": {
+        "before": "In Foster",
+        "after": "Available"
+      }
+    }
+  }
+}
+```
+
+Your endpoint receives the payload as an HTTP `POST` request with a `Content-Type: application/json` header. Respond with a `2xx` status code to acknowledge receipt.
+
+## Setting up a webhook endpoint
+
+<Steps>
+  <Step title="Have your receiving URL ready">
+    Before configuring the webhook in RescueConsole, set up the endpoint that will receive the payloads. If you're using Zapier or Make, create the trigger first (see below) and copy the URL they give you. If you're writing your own endpoint, deploy it and note the URL.
+  </Step>
+  <Step title="Open Integrations settings">
+    Go to **Settings → Integrations** in RescueConsole.
+  </Step>
+  <Step title="Add a new webhook">
+    Select **New webhook**. Give it a name you'll recognize — for example, `Zapier animal updates` or `Internal sync endpoint`.
+  </Step>
+  <Step title="Enter your endpoint URL">
+    Paste the URL of the server or service that will receive the payloads. RescueConsole will POST every triggered event to this address.
+  </Step>
+  <Step title="Choose which events to send">
+    Select the record types and event categories you want this webhook to cover. Limiting the events to what your endpoint actually needs keeps payload volume manageable.
+  </Step>
+  <Step title="Save and test">
+    Save the webhook. RescueConsole sends a test ping to your URL so you can confirm it's reachable before any real events arrive.
+  </Step>
+</Steps>
+
+## Connecting to Zapier
+
+<Steps>
+  <Step title="Create a new Zap">
+    In Zapier, start a new Zap and search for **Webhooks by Zapier** as the trigger app. Choose the **Catch Hook** trigger.
+  </Step>
+  <Step title="Copy the webhook URL">
+    Zapier generates a unique URL for your Zap. Copy it.
+  </Step>
+  <Step title="Paste the URL into RescueConsole">
+    Follow the webhook setup steps above and paste the Zapier URL as your endpoint. Save the webhook in RescueConsole.
+  </Step>
+  <Step title="Send a test event">
+    Back in Zapier, click **Test trigger**. Trigger a change in RescueConsole — update an animal's status, for example — and Zapier captures the payload. It shows you each field from the JSON so you can map them into the next step of your Zap.
+  </Step>
+  <Step title="Build the rest of your Zap">
+    Add action steps to do what you need with the data: update a row in Google Sheets, send a Slack message, create a record in another system, or anything else Zapier supports.
+  </Step>
+</Steps>
+
+## Connecting to Make
+
+<Steps>
+  <Step title="Add a Webhooks module">
+    In Make, create a new scenario and add the **Webhooks → Custom webhook** module as the trigger.
+  </Step>
+  <Step title="Copy the webhook URL">
+    Make generates a URL for your scenario. Copy it.
+  </Step>
+  <Step title="Paste the URL into RescueConsole">
+    Follow the webhook setup steps above and paste the Make URL as your endpoint. Save the webhook.
+  </Step>
+  <Step title="Capture a sample payload">
+    Click **Run once** in Make to put the scenario in listening mode. Trigger a change in RescueConsole. Make captures the payload and automatically maps the JSON fields, making them available to every module that follows in the scenario.
+  </Step>
+  <Step title="Add your action modules">
+    Connect the webhook data to the rest of your scenario — update a database, send an email, push to a CRM, or any module Make supports.
+  </Step>
+</Steps>
+
+## Verifying payloads
+
+If you are writing your own endpoint, verify that each incoming request genuinely came from RescueConsole before processing it. RescueConsole includes a signature header with each delivery that you can check against your webhook secret — this prevents other parties from posting fake events to your URL. Details are in the API reference.
+
+## Retries
+
+If your endpoint does not respond with a `2xx` status code, RescueConsole retries the delivery. Build your endpoint to be idempotent — processing the same event twice should produce the same result — in case a delivery is retried after a transient failure.
+
+<Tip>
+  Give each webhook a descriptive name that includes the destination system and the events it covers. When you have several webhooks configured, a name like `Make — donation received` is much easier to manage than `Webhook 3`.
+</Tip>

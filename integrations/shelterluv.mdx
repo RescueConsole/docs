@@ -1,0 +1,82 @@
+---
+title: "Syncing Animals from ShelterLuv into RescueConsole"
+sidebarTitle: "ShelterLuv"
+description: "Connect ShelterLuv to pull your animals, photos, and intake details into RescueConsole automatically — read-only synced records, no manual entry needed."
+---
+
+The ShelterLuv integration pulls your animals from ShelterLuv into RescueConsole automatically, including their photos and intake details. Once you connect the two systems, your ShelterLuv animal records appear in RescueConsole without any manual data entry. The sync runs on its own after the initial setup — you don't need to trigger it each time.
+
+This integration is especially useful if your organization is currently using ShelterLuv and moving toward RescueConsole, or if you need to run both systems side by side during a transition period. Your team can work in RescueConsole while the data from ShelterLuv stays current.
+
+## How the sync works
+
+The ShelterLuv integration is a **one-way sync**: data flows from ShelterLuv into RescueConsole only. RescueConsole does not push changes back to ShelterLuv. This means:
+
+- Animals created or updated in ShelterLuv appear and stay current in RescueConsole.
+- Changes you make in ShelterLuv are reflected in RescueConsole after the next sync.
+- RescueConsole is the read destination — your ShelterLuv account remains the record of origin for synced animals.
+
+<Note>
+  Animals that come in from ShelterLuv are read-only in RescueConsole. You can view every detail, photo, and intake record, but you cannot edit those fields directly in RescueConsole — changes must be made in ShelterLuv, where they will sync across on the next run.
+</Note>
+
+## What comes across
+
+When ShelterLuv syncs to RescueConsole, each animal arrives with:
+
+- **Profile details** — name, species, breed, age, sex, and description
+- **Photos** — all photos associated with the animal, including the profile shot
+- **Intake information** — intake date, intake type, and intake location
+- **Current status** — the animal's status as recorded in ShelterLuv
+
+## Connecting ShelterLuv
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Go to **Settings → Integrations** in RescueConsole.
+  </Step>
+  <Step title="Connect ShelterLuv">
+    Find the ShelterLuv integration and select **Connect ShelterLuv**. You'll be prompted to provide your ShelterLuv credentials to authorize the connection.
+  </Step>
+  <Step title="Authorize the connection">
+    Enter your ShelterLuv API credentials. RescueConsole uses these to pull your animal records. Your credentials are sealed at rest and never shared.
+  </Step>
+  <Step title="Wait for the first sync">
+    After authorization, RescueConsole begins importing your ShelterLuv animals. Depending on how many records you have, the first import may take a few minutes. Once it's complete, your animals appear in the Animals workspace.
+  </Step>
+</Steps>
+
+After the first sync completes, the integration continues automatically. Any changes you make to your animals in ShelterLuv will flow into RescueConsole.
+
+## Working with synced animals
+
+Synced animals appear in the **Animals** workspace alongside any animals you've created directly in RescueConsole. You can:
+
+- **Search and filter** synced animals just like any other record
+- **View all details**, photos, and intake information
+- **Link synced animals to people** — applications, fosters, and contacts you manage in RescueConsole
+- **Add tasks, notes, and documents** that aren't managed by the sync
+- **Publish synced animals** to your RescueConsole public website
+
+Because the animal record itself is read-only, fields that come from ShelterLuv — name, profile details, intake data, photos — cannot be edited in RescueConsole. Fields that RescueConsole manages separately, like notes you add or documents you upload, remain yours to edit freely.
+
+## Use cases
+
+<CardGroup cols={2}>
+  <Card title="Transitioning from ShelterLuv" icon="arrow-right">
+    Use the sync to keep your ShelterLuv data visible in RescueConsole while your team gets comfortable. Move fully to RescueConsole when you're ready.
+  </Card>
+  <Card title="Running both systems" icon="arrows-left-right">
+    If your organization uses ShelterLuv for some workflows and RescueConsole for others, the integration keeps animal records consistent between the two.
+  </Card>
+  <Card title="Shared data for volunteers" icon="users">
+    Give volunteers and staff access to animal details in RescueConsole without granting them access to ShelterLuv.
+  </Card>
+  <Card title="Website and registry" icon="globe">
+    Publish ShelterLuv animals to your RescueConsole public website or enter them in the Public Registry without retyping their details.
+  </Card>
+</CardGroup>
+
+## Disconnecting ShelterLuv
+
+To stop the sync, go to **Settings → Integrations** and disconnect the ShelterLuv integration. Existing synced records remain in RescueConsole after disconnection — they are not deleted — but they will no longer receive updates from ShelterLuv.

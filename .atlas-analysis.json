@@ -1,0 +1,148 @@
+{
+  "projectType": "saas",
+  "projectName": "RescueConsole",
+  "projectDescription": "An all-in-one management platform for animal rescues and shelters, covering animals, people, fundraising, shifts, communications, and a public website from one shared record.",
+  "theme": "almond",
+  "primaryColor": "#1a7f74",
+  "lightColor": "#83d3c3",
+  "darkColor": "#bfd5d2",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "importing-data"
+            ]
+          },
+          {
+            "group": "Animals",
+            "pages": [
+              "animals/overview",
+              "animals/medical-records",
+              "animals/placement-matching",
+              "animals/adoptions-fosters"
+            ]
+          },
+          {
+            "group": "People & Organizations",
+            "pages": [
+              "people/overview",
+              "people/roles-and-history",
+              "organizations/overview"
+            ]
+          },
+          {
+            "group": "Fundraising",
+            "pages": [
+              "fundraising/donations",
+              "fundraising/campaigns",
+              "fundraising/payments-reconciliation"
+            ]
+          },
+          {
+            "group": "Shifts & Volunteers",
+            "pages": [
+              "shifts/overview",
+              "shifts/booking-rules",
+              "shifts/volunteer-approvals"
+            ]
+          },
+          {
+            "group": "Communications",
+            "pages": [
+              "communications/shared-inboxes",
+              "communications/templates",
+              "communications/custom-domain-email"
+            ]
+          },
+          {
+            "group": "Events & Calendar",
+            "pages": [
+              "events/overview",
+              "calendar/overview"
+            ]
+          },
+          {
+            "group": "Public Registry",
+            "pages": [
+              "registry/overview",
+              "registry/microchip-lookup"
+            ]
+          },
+          {
+            "group": "Settings & Configuration",
+            "pages": [
+              "settings/statuses",
+              "settings/custom-fields",
+              "settings/forms-and-workflows",
+              "settings/roles-and-permissions",
+              "settings/public-website"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/api-keys",
+              "integrations/webhooks",
+              "integrations/shelterluv",
+              "integrations/rescuegroups"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "api-reference/animals",
+              "api-reference/people",
+              "api-reference/donations",
+              "api-reference/events"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Single shared record for every animal and person across all workspaces",
+    "Animals workspace: intake, medical records, placement matching, adoptions and fosters",
+    "People workspace: multi-role records for adopters, fosters, volunteers, and donors",
+    "Fundraising with Stripe integration, campaigns, wish lists, and payout reconciliation",
+    "Shift scheduling with self-serve volunteer booking and coordinator-controlled rules",
+    "Shared team inboxes with threading, templates, and custom domain email sending",
+    "Public website auto-generated from rescue data with adoptable animals and forms",
+    "Public Registry: cross-rescue safety flags and microchip registration/lookup",
+    "Forms and workflows to automate intake, adoption, and volunteer processes",
+    "Custom fields, record layouts, and 13+ built-in roles with full permission control",
+    "API keys and webhooks for integration with Zapier, Make, and custom systems",
+    "Import from spreadsheet (animals, people, donations); export any list as CSV",
+    "ShelterLuv and RescueGroups.org integrations",
+    "Petfinder and Adopt-a-Pet feed (in progress)"
+  ],
+  "publicApiSurface": [
+    "API keys with member-level permissions",
+    "Webhooks for record change events (compatible with Zapier and Make)",
+    "CSV import: animals, people, donations, events",
+    "CSV export: all lists including custom fields",
+    "Stripe payment integration for donations and adoption fees",
+    "ShelterLuv integration (read-only animal sync)",
+    "RescueGroups.org integration (full record import)",
+    "Public microchip lookup endpoint (no auth required)",
+    "Embeddable adoptable-animals widget for external websites"
+  ]
+}

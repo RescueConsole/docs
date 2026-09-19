@@ -1,0 +1,342 @@
+---
+title: "Animals API: List, Retrieve, and Update Animal Records"
+sidebarTitle: "Animals"
+description: "Programmatically list, filter, create, and update animal records — the same intake-to-outcome data your team works with in the Animals workspace."
+---
+
+The Animals API gives you access to every animal record in your organization, from intake through outcome. Each record is the single source of truth for that animal across all workspaces — the same record your team edits in the app, your public website reads from, and your medical and placement history is filed against. You can list animals with filters, fetch a single record in full, create new intake records, and update fields as an animal moves through your workflow.
+
+<Note>
+  The `status` field must exactly match a status configured in your organization's **Settings → Animal Statuses**. Statuses are case-sensitive and organization-specific. Sending an unrecognized value returns a `422` error. Retrieve your configured statuses from the settings before writing automation that sets status values.
+</Note>
+
+---
+
+## List Animals
+
+Retrieve a paginated list of animal records. Apply filters to narrow results by status, species, or location.
+
+```http
+GET /animals
+```
+
+### Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number to retrieve.
+</ParamField>
+
+<ParamField query="perPage" type="integer" default="25">
+  Number of records per page. Maximum `100`.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by animal status (e.g. `Available`, `In Foster`). Must match a status configured in Settings → Animal Statuses. Can be specified multiple times to filter by several statuses.
+</ParamField>
+
+<ParamField query="species" type="string">
+  Filter by species (e.g. `dog`, `cat`, `rabbit`). Case-insensitive.
+</ParamField>
+
+<ParamField query="locationId" type="string">
+  Filter by the ID of a location or housing unit.
+</ParamField>
+
+<ParamField query="isPublic" type="boolean">
+  When `true`, returns only animals published to your public website. When `false`, returns only non-public animals.
+</ParamField>
+
+<ParamField query="careState" type="string">
+  Filter by care state. One of `in_care`, `on_hold`, `completed`, or `not_in_care`.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/animals?species=dog&status=Available&perPage=10" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "anim_01hx9z3kqp4f8vbn2tj7yd6m",
+      "name": "Biscuit",
+      "publicName": "Biscuit",
+      "species": "dog",
+      "breed": "Labrador Mix",
+      "status": "Available",
+      "careState": "in_care",
+      "locationId": "loc_01hw3r2mxpabcd1234ef",
+      "intakeDate": "2026-08-12",
+      "dateOfBirth": "2024-03-05",
+      "sex": "male",
+      "weight": 28.4,
+      "microchipNumber": "985141002345678",
+      "isPublic": true,
+      "notes": "Loves fetch. Good with children over 5.",
+      "createdAt": "2026-08-12T10:05:00Z",
+      "updatedAt": "2026-09-14T08:22:00Z"
+    }
+  ],
+  "meta": {
+    "total": 38,
+    "page": 1,
+    "perPage": 10,
+    "totalPages": 4
+  }
+}
+```
+
+---
+
+## Retrieve an Animal
+
+Fetch the full record for a single animal by ID.
+
+```http
+GET /animals/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the animal record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/animals/anim_01hx9z3kqp4f8vbn2tj7yd6m" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for this animal record.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The working name used internally by your team.
+</ResponseField>
+
+<ResponseField name="publicName" type="string">
+  The name shown on your public website and cage cards. Defaults to `name` if not set separately.
+</ResponseField>
+
+<ResponseField name="species" type="string">
+  The animal's species (e.g. `dog`, `cat`, `rabbit`).
+</ResponseField>
+
+<ResponseField name="breed" type="string">
+  Primary breed. May be `null` if not recorded.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status, matching one of your configured Animal Statuses.
+</ResponseField>
+
+<ResponseField name="careState" type="string">
+  The care state derived from the current status. One of `in_care`, `on_hold`, `completed`, or `not_in_care`. Drives dashboard counts and public visibility logic.
+</ResponseField>
+
+<ResponseField name="locationId" type="string">
+  The ID of the location or housing unit where this animal currently resides. May be `null`.
+</ResponseField>
+
+<ResponseField name="intakeDate" type="string (date)">
+  The date the animal arrived, in `YYYY-MM-DD` format.
+</ResponseField>
+
+<ResponseField name="dateOfBirth" type="string (date)">
+  The animal's date of birth in `YYYY-MM-DD` format. May be `null` if unknown.
+</ResponseField>
+
+<ResponseField name="sex" type="string">
+  One of `male`, `female`, or `unknown`.
+</ResponseField>
+
+<ResponseField name="weight" type="number">
+  Most recent recorded weight in pounds. May be `null` if not yet recorded.
+</ResponseField>
+
+<ResponseField name="microchipNumber" type="string">
+  The animal's microchip number. May be `null`.
+</ResponseField>
+
+<ResponseField name="isPublic" type="boolean">
+  Whether this animal is currently published to your public website.
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Free-text notes visible to your team. May be `null`.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string (ISO 8601)">
+  Timestamp when the record was created.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string (ISO 8601)">
+  Timestamp when the record was last updated.
+</ResponseField>
+
+---
+
+## Create an Animal
+
+Add a new animal record, typically at intake.
+
+```http
+POST /animals
+```
+
+### Request Body
+
+<ParamField body="name" type="string" required>
+  The animal's internal working name.
+</ParamField>
+
+<ParamField body="publicName" type="string">
+  The name to display publicly. Defaults to `name` if omitted.
+</ParamField>
+
+<ParamField body="species" type="string" required>
+  The animal's species (e.g. `dog`, `cat`).
+</ParamField>
+
+<ParamField body="breed" type="string">
+  Primary breed description.
+</ParamField>
+
+<ParamField body="status" type="string" required>
+  A status that matches one of your configured Animal Statuses.
+</ParamField>
+
+<ParamField body="locationId" type="string">
+  The ID of the location where the animal is housed.
+</ParamField>
+
+<ParamField body="intakeDate" type="string" required>
+  Intake date in `YYYY-MM-DD` format.
+</ParamField>
+
+<ParamField body="dateOfBirth" type="string">
+  Date of birth in `YYYY-MM-DD` format. Omit if unknown.
+</ParamField>
+
+<ParamField body="sex" type="string">
+  One of `male`, `female`, or `unknown`.
+</ParamField>
+
+<ParamField body="weight" type="number">
+  Weight in pounds at intake.
+</ParamField>
+
+<ParamField body="microchipNumber" type="string">
+  Microchip number, if already known at intake.
+</ParamField>
+
+<ParamField body="isPublic" type="boolean" default="false">
+  Whether to immediately publish this animal to your public website.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Internal notes about the animal.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST "https://your-org.rescueconsole.com/api/v1/animals" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Pepper",
+    "species": "cat",
+    "status": "Stray Hold",
+    "intakeDate": "2026-09-17",
+    "sex": "female",
+    "weight": 7.2
+  }'
+```
+
+### Response
+
+Returns `201 Created` with the full animal record as the response body.
+
+---
+
+## Update an Animal
+
+Update one or more fields on an existing animal record. Only fields included in the request body are changed — omitted fields are left as-is.
+
+```http
+PATCH /animals/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the animal record to update.
+</ParamField>
+
+### Request Body
+
+Include only the fields you want to change. All fields are optional.
+
+<ParamField body="name" type="string">
+  Updated internal name.
+</ParamField>
+
+<ParamField body="publicName" type="string">
+  Updated public-facing name.
+</ParamField>
+
+<ParamField body="status" type="string">
+  New status. Must match a configured Animal Status.
+</ParamField>
+
+<ParamField body="locationId" type="string">
+  Updated location or housing unit ID.
+</ParamField>
+
+<ParamField body="dateOfBirth" type="string">
+  Date of birth in `YYYY-MM-DD` format.
+</ParamField>
+
+<ParamField body="weight" type="number">
+  Updated weight in pounds.
+</ParamField>
+
+<ParamField body="microchipNumber" type="string">
+  Updated microchip number.
+</ParamField>
+
+<ParamField body="isPublic" type="boolean">
+  Set to `true` to publish to your public website; `false` to unpublish.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Updated internal notes. Passing an empty string clears the notes field.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PATCH "https://your-org.rescueconsole.com/api/v1/animals/anim_01hx9z3kqp4f8vbn2tj7yd6m" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "status": "Available",
+    "isPublic": true,
+    "weight": 29.1
+  }'
+```
+
+### Response
+
+Returns `200 OK` with the full updated animal record as the response body.

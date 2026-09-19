@@ -1,0 +1,139 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "RescueConsole",
+  "theme": "almond",
+  "colors": {
+    "primary": "#1a7f74",
+    "light": "#83d3c3",
+    "dark": "#bfd5d2"
+  },
+  "logo": {
+    "light": "https://media.brand.dev/eed19ab2-a9a5-41c1-8bce-75fea611ce2f.svg",
+    "dark": "https://media.brand.dev/eed19ab2-a9a5-41c1-8bce-75fea611ce2f.svg"
+  },
+  "favicon": "https://media.brand.dev/ccb142c6-701c-4f71-9ad9-f0552838045b.svg",
+  "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "Sign Up Free",
+      "href": "https://rescueconsole.com/signup"
+    }
+  },
+  "footer": {
+    "socials": {
+      "website": "https://rescueconsole.com"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "importing-data"
+            ]
+          },
+          {
+            "group": "Animals",
+            "pages": [
+              "animals/overview",
+              "animals/medical-records",
+              "animals/placement-matching",
+              "animals/adoptions-fosters"
+            ]
+          },
+          {
+            "group": "People & Organizations",
+            "pages": [
+              "people/overview",
+              "people/roles-and-history",
+              "organizations/overview"
+            ]
+          },
+          {
+            "group": "Fundraising",
+            "pages": [
+              "fundraising/donations",
+              "fundraising/campaigns",
+              "fundraising/payments-reconciliation"
+            ]
+          },
+          {
+            "group": "Shifts & Volunteers",
+            "pages": [
+              "shifts/overview",
+              "shifts/booking-rules",
+              "shifts/volunteer-approvals"
+            ]
+          },
+          {
+            "group": "Communications",
+            "pages": [
+              "communications/shared-inboxes",
+              "communications/templates",
+              "communications/custom-domain-email"
+            ]
+          },
+          {
+            "group": "Events & Calendar",
+            "pages": [
+              "events/overview",
+              "calendar/overview"
+            ]
+          },
+          {
+            "group": "Public Registry",
+            "pages": [
+              "registry/overview",
+              "registry/microchip-lookup"
+            ]
+          },
+          {
+            "group": "Settings & Configuration",
+            "pages": [
+              "settings/statuses",
+              "settings/custom-fields",
+              "settings/forms-and-workflows",
+              "settings/roles-and-permissions",
+              "settings/public-website"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/api-keys",
+              "integrations/webhooks",
+              "integrations/shelterluv",
+              "integrations/rescuegroups"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "api-reference/animals",
+              "api-reference/people",
+              "api-reference/donations",
+              "api-reference/events"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

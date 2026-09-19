@@ -1,0 +1,91 @@
+---
+title: "Team Access: Built-in Roles, Permissions, and the Audit Log"
+sidebarTitle: "Roles & Permissions"
+description: "Assign one of 13 built-in roles or build your own, review every change in the audit log, and keep your account secure with two-factor authentication."
+---
+
+RescueConsole gives every team member exactly the access their role requires — nothing more, nothing less. Thirteen built-in roles cover the most common positions in a rescue, and you can create your own with per-workspace permissions when the built-in ones don't fit. Every change anyone makes is logged so mistakes can always be reversed.
+
+## The 13 built-in roles
+
+Built-in roles are ordered from broadest access to most restricted:
+
+| Role | What they can do |
+|---|---|
+| **Organization admin** | Full access to every workspace and all settings. |
+| **Manager** | Read and write across all workspaces; cannot change billing or security settings. |
+| **Program manager** *(retired)* | Covered by Manager. No longer assigned to new team members. |
+| **Adoption coordinator** | Read and write in Animals, People, Communications, and Fundraising. |
+| **Foster coordinator** | Read and write in Animals, People, Communications, and Shifts. |
+| **Volunteer coordinator** | Read and write in Shifts and Communications; read in People. |
+| **Fundraising coordinator** | Read and write in Fundraising and Communications; read in People. |
+| **Events coordinator** | Read and write in Events and Shifts; read in Animals and People. |
+| **Veterinarian** | Read and write on the Medical tab of Animals; read elsewhere. |
+| **Counselor** | Read and write in People and Communications. |
+| **Staff** *(retired)* | Read and write access across core workspaces without admin privileges. No longer assigned to new team members. |
+| **Volunteer** | Can see their own shifts, the shifts they can book, and published events — nothing else. |
+| **Read only** | Can view (but not edit) every record they have permission to see. |
+
+<Note>
+  Volunteers see only three things when they sign in: their upcoming shifts, the open shifts they are eligible to book, and published events. No animal records, no people records, no financials. This is enforced at the data level — it is not a UI setting that can be toggled accidentally.
+</Note>
+
+## Custom roles
+
+When the built-in roles don't map to how your team is organized, create a custom role with exactly the permissions you need.
+
+1. Go to **Settings → Team → Roles** and click **New role**.
+2. Give the role a name.
+3. For each workspace, choose **No access**, **Read**, **Write**, or **Admin**.
+4. Click **Save** and assign the role to team members.
+
+Custom roles work exactly like built-in roles — they appear in the role picker when you invite a teammate, and they can be edited at any time.
+
+## Assigning a role to a teammate
+
+1. Go to **Settings → Team → Members**.
+2. Find the team member (or click **Invite** to add someone new by email).
+3. Click the role dropdown next to their name and select the role you want them to have.
+4. Changes take effect immediately — the team member's next page load reflects the updated permissions.
+
+When you invite someone new, they receive an email with a sign-in link. They are not active until they complete sign-in.
+
+## The audit log
+
+Every change to every record in RescueConsole is logged — who made it, when, what the value was before, and what it became after. Deleted records are logged too, including the full contents of the record at the time of deletion.
+
+<Note>
+  Because the audit log records the before and after value of every field change, any mistake can be reversed by hand. Find the entry in the log, read the previous value, and type it back in. Nothing is gone permanently unless a record is hard-deleted (which requires organization admin access).
+</Note>
+
+To view the audit log for a record, open the record and click the **History** tab. To search across all records, go to **Settings → Advanced & security → Audit log**.
+
+### The Communications audit log
+
+The Communications workspace has its own audit log that records who sent what and when. Organization admins can access it under **Communications → Audit log**.
+
+## Settings history
+
+Every change to your organization's settings is recorded separately in the settings history. This includes status configuration changes, workflow edits, form changes, role assignments, and anything under the Settings menu.
+
+To view the settings history, go to **Settings → Advanced & security → Settings history**. Each entry shows the name of the person who made the change, the timestamp, and exactly what changed — field by field.
+
+## Two-factor authentication
+
+Require two-factor authentication (2FA) for your whole organization or enable it for your own account under **My account → Security**. RescueConsole supports authenticator apps.
+
+### If you are locked out
+
+If a team member loses access to their 2FA device or is locked out of their account, your support team can help in two ways:
+
+- **Send a new sign-in link** directly to their email address, bypassing the current session.
+- **Disable 2FA** on their account so they can sign in and re-enroll a new device.
+
+Contact support from the **Help** menu inside RescueConsole, or email the support address linked in the footer. A team member will respond and verify identity before making any account changes.
+
+<Accordion title="Best practices for team access">
+  - Assign the least-privileged role that lets someone do their job — use Read only for people who only need to look things up.
+  - Review your team member list quarterly and remove or downgrade access for people who have changed roles.
+  - Enable 2FA organization-wide if your organization handles sensitive placement or financial data.
+  - Use the settings history to verify that a configuration change was intentional before treating it as an error.
+</Accordion>

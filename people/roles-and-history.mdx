@@ -1,0 +1,82 @@
+---
+title: "Managing Person Roles, Activity History, and Custom Fields"
+sidebarTitle: "Roles & History"
+description: "Add roles without losing history, track activity per role with full audit logs, set time zones per person, and extend records with custom fields."
+---
+
+A person's record in RescueConsole grows with them. Someone who volunteered for two years before making their first donation does not become a new record when you add the donor role — their shift history is still there, and their giving history sits alongside it on the same page. Roles accumulate; they do not replace each other.
+
+## How roles work
+
+Every person starts with at least one role and can hold as many as four: adopter, foster, volunteer, and donor. You add a role by opening the person's record and selecting it — there is no migration, no new record, and no data to move. From that point forward, a tab appears for the new role showing activity in that context.
+
+Removing a role does the same thing in reverse: the tab goes away, but the underlying history does not. If you later re-add the role, the history reappears.
+
+<CardGroup cols={2}>
+  <Card title="Volunteer role" icon="calendar-check">
+    Shows approved roles and locations, hours logged, shifts attended or cancelled, and sign-off status for grant reporting.
+  </Card>
+  <Card title="Foster role" icon="house-user">
+    Shows current and past placements, the animals fostered, capacity, and care notes from each placement.
+  </Card>
+  <Card title="Donor role" icon="gift">
+    Shows each gift, the campaign it was attributed to, lifetime giving total, lapsed-giving status, and receipts.
+  </Card>
+  <Card title="Adopter role" icon="house-heart">
+    Shows every adoption, the animal and fees involved, receipts, and any adoption follow-up notes.
+  </Card>
+</CardGroup>
+
+## Activity per role
+
+Each role tab shows only what is relevant to that role, making it easy for each part of your team to find what they need without wading through unrelated history.
+
+- **Volunteer tab**: hours logged, shifts attended, shifts cancelled, qualifications and their expiry dates, and the coordinator's sign-off status for each period — useful when you are pulling numbers for a grant report.
+- **Foster tab**: the animals placed, placement dates, how long each foster lasted, and whether the animal was eventually adopted by this person.
+- **Donor tab**: every gift with its amount, date, campaign, and payment method, plus a lifetime total and a flag if the person has lapsed.
+- **Adopter tab**: completed adoptions with the animal, fee, receipt, and any post-adoption follow-up.
+
+## Time zones on the person record
+
+RescueConsole stores a time zone on every person record. This matters for volunteers: if your rescue is in one time zone and a volunteer is in another (or you simply want to be precise about shift times), the shift display uses the person's own time zone. A shift that runs 9 am to 1 pm on Saturday shows as Saturday 9–1 on their side, regardless of server or organization time.
+
+Set the person's time zone on their record in the same place you set their contact details.
+
+## The activity log
+
+Every change to every field on a person record is logged automatically. The activity log shows:
+
+- **What changed**: the field name, the value before the change, and the value after it.
+- **What was deleted**: if a record linked to this person (a shift booking, a foster placement, a donation) is deleted, the log records what it contained.
+- **Who made the change**: the team member who made the edit, and when.
+
+<Note>
+  Because the activity log records the before and after value of every field, mistakes can be put back by hand. If a field was overwritten incorrectly, open the log, find the entry, and type the previous value back in — you have the exact text to restore.
+</Note>
+
+## Checklists on person records
+
+Workflows configured in Settings can run on person records, not only on animal records. A volunteer onboarding checklist, for example, can be applied to a person when they are approved, creating the tasks your coordinator needs to complete before that person's first shift.
+
+Each checklist step can be marked complete independently, and the checklist stays on the person's record so you can see what has been done and what is still outstanding.
+
+## Custom fields per role tab
+
+Custom fields on people are configured in **Settings → Record Layouts**. You can add fields to the main person record (visible regardless of role) or to a specific role tab (visible only when that person holds the relevant role).
+
+This means your donor tab can carry a field like "Planned giving interest" that never appears on a volunteer's record, and your volunteer tab can carry "T-shirt size" without cluttering the adopter view.
+
+<Steps>
+  <Step title="Open Settings → Record Layouts">
+    Select the People record type and choose the tab you want to modify: the core record or a specific role tab.
+  </Step>
+  <Step title="Add a custom field">
+    Create a new field with a name, type (text, number, date, dropdown, checkbox), and optionally mark it required.
+  </Step>
+  <Step title="Set visibility">
+    Assign the field to the appropriate tab. Fields on role tabs appear only when the person holds that role.
+  </Step>
+  <Step title="Reorder and save">
+    Drag fields into the order you want them displayed, then save the layout. The change takes effect immediately on all person records.
+  </Step>
+</Steps>

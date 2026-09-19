@@ -1,0 +1,145 @@
+---
+title: "RescueConsole REST API — Overview and Getting Started"
+sidebarTitle: "Overview"
+description: "Read and write RescueConsole data programmatically. Authenticate with a Bearer token, send JSON, and handle standard HTTP status codes."
+---
+
+The RescueConsole REST API gives you programmatic access to the same data your team works with every day — animals, people, donations, events, and more. Any operation you can perform as a team member in the app, you can perform via the API using an API key tied to that same role. Use it to sync records with other tools, automate repetitive workflows, push data to reporting dashboards, or build custom integrations alongside Zapier and Make.
+
+## Base URL
+
+Every request goes to your organization's subdomain:
+
+```
+https://{your-subdomain}.rescueconsole.com/api/v1
+```
+
+Replace `{your-subdomain}` with the subdomain you chose when you created your RescueConsole account — it appears in your browser address bar whenever you're signed in.
+
+## Authentication
+
+All API requests must include a Bearer token in the `Authorization` header. Generate your API key in **Settings → Integrations → API Keys**.
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+See [Authentication](/api-reference/authentication) for full details on creating and managing keys.
+
+<Note>
+  Your API key carries exactly the same permissions as the role it was created under. A key created by an account with read-only access can only read data — it cannot create or update records. Make sure the member role used to generate the key has the permissions your integration needs.
+</Note>
+
+## Content Type
+
+All request and response bodies are JSON. Include the `Content-Type` header on any request that sends a body:
+
+```http
+Content-Type: application/json
+```
+
+## Example Request
+
+Here is a basic authenticated request to list animals:
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/animals" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+A successful response returns a paginated JSON object:
+
+```json
+{
+  "data": [
+    {
+      "id": "anim_01hx9z3kqp4f8vbn2tj7yd6m",
+      "name": "Biscuit",
+      "publicName": "Biscuit",
+      "species": "dog",
+      "status": "Available",
+      "careState": "in_care",
+      "isPublic": true,
+      "createdAt": "2026-09-01T14:22:00Z",
+      "updatedAt": "2026-09-15T09:10:00Z"
+    }
+  ],
+  "meta": {
+    "total": 142,
+    "page": 1,
+    "perPage": 25,
+    "totalPages": 6
+  }
+}
+```
+
+## Paginated Responses
+
+List endpoints return paginated results. Use the `page` and `perPage` query parameters to navigate:
+
+| Parameter | Default | Maximum | Description |
+|-----------|---------|---------|-------------|
+| `page` | `1` | — | Page number to retrieve |
+| `perPage` | `25` | `100` | Number of records per page |
+
+The `meta` object in every list response contains `total`, `page`, `perPage`, and `totalPages` fields.
+
+## HTTP Status Codes
+
+The API uses standard HTTP status codes to indicate whether a request succeeded or failed.
+
+| Code | Name | When you'll see it |
+|------|------|--------------------|
+| `200` | OK | Request succeeded; response body contains the result |
+| `201` | Created | A new record was created; response body contains the new resource |
+| `204` | No Content | Request succeeded; no response body (e.g. a deletion) |
+| `400` | Bad Request | The request was malformed or missing required fields |
+| `401` | Unauthorized | The API key is missing, invalid, or has been revoked |
+| `403` | Forbidden | The API key's role does not have permission for this operation |
+| `404` | Not Found | The requested record does not exist or is not visible to this key |
+| `422` | Unprocessable Entity | The request was valid JSON but failed validation (e.g. an unrecognized status value) |
+| `429` | Too Many Requests | You have exceeded the rate limit; slow down and retry |
+| `500` | Server Error | Something went wrong on our end; if it persists, contact support |
+
+## Rate Limiting
+
+The API enforces rate limits to protect service quality for all organizations. When you exceed the limit, you receive a `429 Too Many Requests` response. The exact limits are not published; design your integration to back off and retry when you encounter a `429`.
+
+## Error Responses
+
+When a request fails, the response body contains an `error` object describing what went wrong:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The status 'Limbo' is not a recognized animal status for your organization.",
+    "fields": {
+      "status": ["Must be one of your configured Animal Statuses"]
+    }
+  }
+}
+```
+
+The `fields` property is present on `422` responses and maps field names to arrays of validation messages.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api-reference/authentication">
+    Create an API key and learn how to pass it with every request.
+  </Card>
+  <Card title="Animals API" icon="paw" href="/api-reference/animals">
+    List, retrieve, create, and update animal records.
+  </Card>
+  <Card title="People API" icon="users" href="/api-reference/people">
+    Read and write adopter, foster, volunteer, and donor records.
+  </Card>
+  <Card title="Donations API" icon="hand-holding-heart" href="/api-reference/donations">
+    Record and retrieve gifts against campaigns and donors.
+  </Card>
+  <Card title="Events API" icon="calendar" href="/api-reference/events">
+    Create, update, and publish adoption days, fundraisers, and clinics.
+  </Card>
+</CardGroup>

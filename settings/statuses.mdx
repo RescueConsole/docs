@@ -1,0 +1,87 @@
+---
+title: "Animal Statuses: Customizing Names, Colors, and Care States"
+sidebarTitle: "Animal Statuses"
+description: "Customize the 18 built-in animal statuses — rename, recolor, regroup, and add your own — and control what adopters see vs. your team's working names."
+---
+
+Animal statuses are the vocabulary your whole rescue speaks: they tell your team where every animal stands, drive the occupancy numbers on your dashboard, and determine what adopters see on your public website. RescueConsole ships with 18 statuses organized into three groups, and you can rename, recolor, regroup, or add to them at any time without losing any history.
+
+## The 18 built-in statuses
+
+The default statuses are organized into three groups that reflect the typical arc of an animal's stay:
+
+<CardGroup cols={3}>
+  <Card title="In Care" icon="house-heart">
+    Animals currently under your organization's care: **Incoming**, **Available**, **On Hold**, **Foster**, **Medical**, **Behavioral**, **Quarantine**, **Pending Adoption**, and **Pending Transfer**.
+  </Card>
+  <Card title="Outcomes" icon="circle-check">
+    Animals whose placement has been finalized: **Adopted**, **Foster to Adopt**, **Transferred**, **Returned to Owner**, and **Released**.
+  </Card>
+  <Card title="Closed" icon="archive">
+    Animals no longer in active care: **Deceased**, **Lost**, **Euthanized**, and **Archived**.
+  </Card>
+</CardGroup>
+
+Each status carries a **color** (shown as a pill on the animal record and in list views), a **description** that tells your team what the status means, and a **care state** that determines how the animal is counted.
+
+## What is a care state?
+
+A care state is the category RescueConsole assigns to a status to drive occupancy tracking, dashboard counts, and public visibility. Every status maps to exactly one care state:
+
+| Care state | What it means |
+|---|---|
+| **In care** | The animal is physically under your supervision and counts toward your occupancy numbers. |
+| **In foster** | The animal is placed in a foster home and counts as placed but still in your care. |
+| **Outcome** | The animal has left your care permanently (adopted, transferred, deceased, etc.). |
+| **Inactive** | The animal's record is closed and excluded from all active counts. |
+
+<Note>
+  The care state — not the status name — is what drives the animal counts on your dashboard and determines whether an animal appears on your public website. When you create a custom status or rename a built-in one, make sure its care state reflects the correct placement in your workflow.
+</Note>
+
+## Rename and recolor a status
+
+Go to **Settings → Animals → Statuses**. Each status row shows its name, color swatch, care state, and public toggle.
+
+1. Click the status you want to edit.
+2. Change the **name** to match your rescue's vocabulary (for example, "Pending Adoption" → "Contract Signed").
+3. Click the **color swatch** and choose a new color from the picker.
+4. Click **Save**.
+
+The updated name and color appear immediately everywhere that status is referenced — list views, record pills, and exports.
+
+## Add a custom status
+
+1. Open **Settings → Animals → Statuses**.
+2. Click **Add status** at the bottom of any group.
+3. Enter a name, choose a color, and select the care state that applies.
+4. Optionally set a public name (see below) and toggle public visibility.
+5. Click **Save**.
+
+Your new status is available immediately in every status-change panel across the Animals workspace.
+
+## Regroup statuses
+
+Drag any status from one group to another by grabbing its handle on the left. Groups themselves can also be renamed — click the group heading to edit it inline.
+
+## Set a public name
+
+Every status has two names: the **working name** your team sees inside RescueConsole, and an optional **public name** that appears on your website.
+
+<Tip>
+  Use the public name to translate internal shorthand into adopter-friendly language. Your team might work with "Pending Contract" while your website shows "Adoption Pending" — same status, two names, no confusion on either side.
+</Tip>
+
+To set a public name, open the status editor and fill in the **Public name** field. Leave it blank to show the working name on your site, or enter a different phrase to display that instead.
+
+## Control what the public sees
+
+Each status has a **Public** toggle. When a status is marked public and an animal carries that status, the animal can appear on your website (provided the animal itself is also marked public in the Animals workspace). Turn the toggle off to hide all animals in that status from public view, regardless of the individual animal setting.
+
+## Change an animal's status
+
+From any animal record, click the **status pill** at the top of the page (or use the **Change status** button in the action menu). A panel opens showing every configured status with its color and description. Click the status you want to move the animal to, confirm if prompted, and the change is logged immediately in the animal's history.
+
+<Accordion title="Statuses and the dashboard occupancy strip">
+  The occupancy strip at the top of your dashboard counts animals by care state, not by individual status. "In care" and "In foster" care states both contribute to your total animals under care. Outcome and inactive care states are excluded. If your counts look off, check that your custom or renamed statuses are assigned to the correct care state under **Settings → Animals → Statuses**.
+</Accordion>

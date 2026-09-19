@@ -1,0 +1,104 @@
+---
+title: "Reconciling Stripe, Square, Zeffy, and PayPal Payouts"
+sidebarTitle: "Reconciliation"
+description: "Reconcile payout files from Stripe, Square, Zeffy, and PayPal against your donation ledger, set fees by species and age, and review platform billing."
+---
+
+Every payment your rescue takes — whether through Stripe on your public site, a Square reader at an adoption day, or a PayPal link you sent by email — eventually arrives in your bank as a payout. RescueConsole's reconciliation tools let you upload that payout file and match every line against what you've recorded, so unmatched transactions are called out before they become a mystery months later.
+
+<Note>
+  RescueConsole connects to **your own Stripe account**. When a donor pays by card on your site, the money goes from their card to your Stripe account to your bank — RescueConsole is never in that chain. We never hold, move, or have access to your funds.
+</Note>
+
+## How card payments work
+
+Connect your Stripe account in **Settings → Payments**. Once connected, card payments made through your public donation page and adoption-fee links are processed by Stripe and deposited into your bank on Stripe's normal payout schedule.
+
+RescueConsole records each card payment in the ledger at the moment it's made, so by the time Stripe sends you a payout, the donations are already in your records and ready to match.
+
+## Reconciling a payout file
+
+RescueConsole reconciles against payout CSV files from four processors:
+
+<CardGroup cols={2}>
+  <Card title="Stripe" icon="stripe">
+    Download the payout CSV from your Stripe dashboard and upload it to RescueConsole to match against card donations.
+  </Card>
+  <Card title="Square" icon="square">
+    Export your Square payout report and upload it to reconcile donations and adoption fees taken through a card reader.
+  </Card>
+  <Card title="Zeffy" icon="receipt">
+    Upload your Zeffy payout file to match any donations taken through that platform against your ledger.
+  </Card>
+  <Card title="PayPal" icon="paypal">
+    Export a PayPal transaction report and upload it to match PayPal donations against what you've recorded.
+  </Card>
+</CardGroup>
+
+### Running a reconciliation
+
+<Steps>
+  <Step title="Download your payout file">
+    Log in to your payment processor (Stripe, Square, Zeffy, or PayPal) and export the payout CSV for the period you want to reconcile.
+  </Step>
+  <Step title="Open Reconciliation in RescueConsole">
+    Go to **Fundraising → Reconciliation** and select the processor you're reconciling.
+  </Step>
+  <Step title="Upload the CSV">
+    Upload the payout file. RescueConsole reads each line and attempts to match it against a recorded donation or adoption fee in your ledger.
+  </Step>
+  <Step title="Review unmatched lines">
+    Every line that doesn't match a record in RescueConsole is listed and called out. Review these to find missing entries, duplicate records, or transactions that need to be logged.
+  </Step>
+  <Step title="Resolve and close">
+    Record any missing donations, correct any mismatches, and mark the reconciliation complete. The ledger then reflects a full, accurate picture of that payout period.
+  </Step>
+</Steps>
+
+<Warning>
+  Don't ignore unmatched lines. A payout line with no matching donation record usually means a gift was never logged — which means your donor's giving history is incomplete and your campaign totals are understated.
+</Warning>
+
+## Setting donation amounts and adoption fees
+
+You control the amounts shown to donors and adopters at checkout. Fees can be set by species and age group, so a senior dog has a different adoption fee from a kitten, and a suggested donation for a cat differs from one for a rabbit.
+
+Configure these in **Settings → Payments**:
+
+- **Adoption fees** — set by species and age group
+- **Suggested donation amounts** — the amounts shown on your public donation page
+- **Who pays the processing fee** — absorb it yourself or pass it to the donor at checkout
+
+## Receipts
+
+Every card donation and adoption-fee payment generates a receipt that includes your organization's legal name and tax-exempt status. Donors receive this automatically by email — you don't need to prepare receipts separately, and donors have what they need for their own tax records.
+
+## The dollar-per-adoption platform fee
+
+RescueConsole's platform fee is $1 for each adoption you complete. You can carry that cost yourself, or pass it to the adopter as a separate line item at checkout.
+
+<Tip>
+  Turn on the **adopter-pays** setting in **Settings → Payments** to add the $1 platform fee to the adoption checkout as its own labeled line. The adopter sees exactly what it is — it is never hidden in the adoption fee — and that adoption comes off your monthly invoice. For most rescues, this covers the platform cost entirely without changing your adoption fees.
+</Tip>
+
+### How invoicing works
+
+RescueConsole records what is owed each month as adoptions are completed. The month's invoice is issued on the **5th of the following month**, which means:
+
+- An adoption completed on the last day of the month still lands in that month's invoice
+- An adoption you enter a few days late is counted in the month it happened, not the month you entered it
+- Nothing is charged automatically — you receive an invoice and pay it
+
+<Info>
+  A month with no completed adoptions costs nothing. There is no monthly minimum, no base fee, and nothing to cancel if things go quiet. The invoice simply does not arrive.
+</Info>
+
+### What counts as a billable adoption
+
+An adoption is billed when you complete it and do not reverse it. If a placement comes back and you record the return, that adoption is removed from the count. If it was already on a sent invoice, the next invoice credits it back.
+
+Fosters, transfers, and returns are never counted as adoptions.
+
+## Your first year
+
+Your first full year on RescueConsole is free — every workspace, every payment feature, your own domain, and unlimited accounts. No card is needed to start, and nothing switches off at the end of the free year. Your first invoice simply arrives on the 5th of the month after your free year ends.

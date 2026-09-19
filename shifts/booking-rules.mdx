@@ -1,0 +1,64 @@
+---
+title: "Booking Rules for Shifts: Notice, Hours, Approvals"
+sidebarTitle: "Booking Rules"
+description: "Set notice windows, daily hour limits, and role and location approvals. See how cancellation requests are routed to coordinators and permanently recorded."
+---
+
+Booking rules are what turn a shift window from an open invitation into a managed schedule. When you configure rules on a window, RescueConsole enforces them automatically — volunteers cannot book slots they are not approved for, cannot ignore a notice period, and cannot exceed their daily hour limit. You define the guardrails once; the system applies them on every booking.
+
+## How to set up a shift window with rules
+
+<Steps>
+  <Step title="Open Shifts and create a new window">
+    Navigate to the Shifts workspace and select **New shift window**. Give the window a name, set the start and end times, and choose the location it applies to.
+  </Step>
+  <Step title="Add roles and set capacity">
+    Add each role the window requires and specify how many people are needed for that role. A window can have multiple roles — for example, two dog walkers and one intake assistant — each with its own capacity.
+  </Step>
+  <Step title="Set booking length limits">
+    Choose whether volunteers must take the entire window or may book a portion of it. If you allow partial booking, set the minimum and maximum length a single booking can be. This controls how many people can share coverage of one window.
+  </Step>
+  <Step title="Configure the notice window">
+    Set how many hours in advance a volunteer must book or cancel a shift without coordinator involvement. Bookings and cancellations made inside this window are not processed automatically — they go to a coordinator for review instead.
+  </Step>
+  <Step title="Set the maximum hours per day">
+    Enter the maximum number of hours a single volunteer can be booked on any one day. RescueConsole checks this limit across all shifts on that calendar date, not just within a single window.
+  </Step>
+  <Step title="Confirm role and location approvals are in place">
+    RescueConsole will not let a volunteer book a role or location they have not been approved for. Before the window opens, make sure your volunteers have the relevant approvals on their records. Volunteers without approval simply will not see those slots as available to book.
+  </Step>
+  <Step title="Publish the window">
+    Once the rules are set, publish the window. Eligible volunteers will see it appear in their own shift calendar and can begin booking.
+  </Step>
+</Steps>
+
+## Notice window and cancellation requests
+
+The notice window defines a boundary around the shift start time. When a volunteer requests a cancellation inside that boundary, the request does not go through automatically. Instead, it is sent to a coordinator as a request to review.
+
+<Note>
+  Every cancellation request is preserved in full — none are overwritten. If a volunteer has requested a cancellation for the same shift more than once, the queue shows the complete history: for example, "asked twice, refused once." This record is permanent and is visible to coordinators, giving you an accurate picture of each volunteer's reliability over time.
+</Note>
+
+## Maximum hours per day
+
+The daily hours limit is applied across the entire day, not per window. If a volunteer is already booked for four hours and the limit is six, they can only book a further two hours on that date regardless of which window they are looking at.
+
+## Role and location approvals
+
+Every booking is checked against the volunteer's approval record before it is confirmed. A volunteer must be explicitly approved for:
+
+- **A role** — such as dog walker, kennel assistant, or adoption counselor.
+- **A location** — if your organization operates multiple sites or foster locations and you restrict access by site.
+
+If either approval is missing, the volunteer cannot book that slot. They will not see an error message about a rule they are failing; they simply will not see that slot as available to them.
+
+### Expiring qualifications
+
+Approvals can carry an expiry date. Once a qualification expires — a completed training course, a signed agreement, a background check — the volunteer loses eligibility for the roles or locations that required it. RescueConsole will not let them book those slots until a coordinator re-approves them for the relevant role or location.
+
+This means you do not need to audit approvals manually. When a qualification expires, access is withdrawn automatically, and the Volunteers page will surface the affected volunteer so you can follow up.
+
+## How rules are enforced
+
+Rules are enforced at the point of booking, not after. A volunteer browsing available shifts only sees windows and time slots that they are already eligible for. They cannot attempt to book something and then be turned away — ineligible options are not shown to them at all. Coordinators with the appropriate permissions can override rules when necessary.

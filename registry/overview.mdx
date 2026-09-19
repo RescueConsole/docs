@@ -1,0 +1,68 @@
+---
+title: "The Cross-Rescue Public Safety Registry — Overview"
+sidebarTitle: "Overview"
+description: "A shared registry where rescues flag placement risks and corroborate each other's flags — hashed identifiers match without exposing personal details."
+---
+
+The Public Registry is a shared safety network built into RescueConsole that every rescue on the platform contributes to and benefits from. When one rescue encounters someone who poses a risk to animals — through abuse, neglect, fraud, or abandonment — they can flag that person so other rescues checking the same individual before an adoption or foster placement see that history. The registry is designed so that a search can match without exposing anyone's private details to someone who shouldn't have them.
+
+## What the registry is for
+
+The registry exists for placement safety. It is not a public shaming list. It is a tool for rescues to share what they've learned so that an animal isn't placed in a dangerous situation that a different rescue already documented. Flags are shared between organizations on the RescueConsole network — not published to the general public.
+
+## What can be flagged
+
+<CardGroup cols={2}>
+  <Card title="Animal Abuse" icon="triangle-exclamation">
+    Documented or credibly reported physical harm to an animal.
+  </Card>
+  <Card title="Neglect" icon="circle-exclamation">
+    Failure to provide adequate care, food, shelter, or veterinary treatment.
+  </Card>
+  <Card title="Fraud" icon="ban">
+    Misrepresentation on an application, return fraud, or other deliberate deception in dealings with a rescue.
+  </Card>
+  <Card title="Abandonment" icon="door-open">
+    An animal surrendered, dumped, or left without notice or care.
+  </Card>
+</CardGroup>
+
+Each flag carries a severity rating, a narrative describing what happened, and an evidence trail. The narrative is what another rescue reads when they find a match — it is your account of events, written plainly.
+
+## How corroboration works
+
+When you file a flag, it enters a corroboration state. Two other rescues on the network must independently confirm the flag before it is considered established. Corroboration isn't rubber-stamping — each corroborating rescue is saying they have encountered the same person and can speak to the concern. This threshold protects against a single bad-faith filing becoming a permanent mark.
+
+## How identifiers are hashed
+
+When you add a flag, the identifiers you associate with it — email address, phone number, microchip number — are hashed before they are stored. A hash is a one-way transformation: the original value cannot be read back out of the stored hash.
+
+When another rescue searches the registry, their search term is hashed the same way, and the hashes are compared. If they match, the search finds the flag. Neither rescue ever transmits a readable email address or phone number across the registry — they transmit fingerprints, and fingerprints can match without revealing what they're fingerprints of.
+
+<Note>
+  Hashing means the registry can tell you "this person has a flag" without the registry itself storing a list of email addresses that could be extracted. A search matches or it doesn't. No one operating the registry can reconstruct the original identifiers from the stored hashes.
+</Note>
+
+## What another rescue sees when there is a match
+
+A rescue that searches the registry and finds a matching flag sees:
+
+- **The narrative** — the account of what happened, as written by the filing rescue
+- **A name** — first name and last initial, or however the filing rescue recorded it
+- **A city** — general location without a full address
+- **Severity** — how serious the filing rescue rated the concern
+- **The flag type** — abuse, neglect, fraud, or abandonment
+
+What they do not see: full personal contact details, the filing rescue's internal record, or anything beyond what is needed to make a placement decision.
+
+## Searching the registry from a record
+
+You can search the registry directly from an animal record or a person record inside your account. On a person record, open the Registry tab and run a search on their identifiers — email, phone, or a microchip associated with them. On an animal record, search by the animal's microchip number. The search results appear in-context, next to the record you're reviewing, so you don't have to navigate away mid-application review.
+
+## Adding a flag from a record
+
+To file a flag, open the person record for the individual you're flagging. From the Registry tab, choose to add a flag, select the flag type, set a severity, write the narrative, and attach the identifiers. The flag is then submitted and enters the corroboration queue for the network.
+
+<Warning>
+  Flags are serious records with real consequences for the people named. File only what you can support with your own direct experience or documented evidence. The corroboration requirement exists partly as a check, but the narrative you write reflects on your organization as well.
+</Warning>

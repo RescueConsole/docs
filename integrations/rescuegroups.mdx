@@ -1,0 +1,114 @@
+---
+title: "Importing Your RescueGroups.org Records into RescueConsole"
+sidebarTitle: "RescueGroups.org"
+description: "Import animals, people, medical records, events, and applications from RescueGroups.org hourly, with full control over how fields and statuses map across."
+---
+
+The RescueGroups.org integration brings your existing records into RescueConsole completely: animals with photos, fosters and surrendering owners, people with notes and employers, journal entries as medical records, events, and both adoption and foster applications. Once you connect your account and the first sync runs, it continues automatically every hour — your RescueGroups.org data stays current in RescueConsole without any manual intervention.
+
+Field mapping gives you full control over where each RescueGroups.org field lands in RescueConsole, including into custom fields you've created. You also map your RescueGroups.org statuses and contact types to their RescueConsole equivalents, so your records arrive with the right meaning from the start.
+
+## What comes across
+
+<CardGroup cols={2}>
+  <Card title="Animals" icon="paw">
+    Animal profiles with all their photos, intake details, and the fosters and surrendering owners linked to each one.
+  </Card>
+  <Card title="People" icon="user">
+    People records with notes, employer information, and the roles they hold — including the new referred by, availability, and transportation fields.
+  </Card>
+  <Card title="Medical records" icon="stethoscope">
+    Journal entries from RescueGroups.org come across as medical records in RescueConsole, keeping each animal's health history intact.
+  </Card>
+  <Card title="Events" icon="calendar">
+    Events from your RescueGroups.org account, ready to publish on your RescueConsole public website.
+  </Card>
+  <Card title="Applications" icon="file-lines">
+    Adoption and foster applications, mapped to the animals and people they belong to.
+  </Card>
+  <Card title="Custom fields" icon="sliders">
+    Map any RescueGroups.org field into a custom field you've created in RescueConsole — nothing gets left behind.
+  </Card>
+</CardGroup>
+
+## New fields added for this integration
+
+To support the full range of data that RescueGroups.org tracks, RescueConsole added several new fields when this integration was built. These fields are available on all animals and people in RescueConsole, regardless of whether you use the integration.
+
+**New animal fields:**
+
+| Field | Description |
+|---|---|
+| Energy level | The animal's activity and energy profile |
+| Indoor / Outdoor | Whether the animal lives inside, outside, or both |
+| Available date | The date the animal becomes available for adoption |
+| Special needs | Any ongoing care requirements |
+| Distinguishing marks | Markings or features that help identify the animal |
+| Good with seniors | Whether the animal is suitable with elderly adults |
+| Good with adults | Whether the animal is suitable with adult-only households |
+| Good with farm animals | Whether the animal is suitable on a farm |
+| Sponsorship | Sponsorship information for the animal |
+| Previous ID | The animal's identifier in a previous system |
+
+**New person fields:**
+
+| Field | Description |
+|---|---|
+| Referred by | How the person heard about your rescue |
+| Availability | When the person is available — for volunteers and fosters |
+| Transportation | Whether the person can provide transport |
+
+## Connecting RescueGroups.org
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Go to **Settings → Integrations** in RescueConsole.
+  </Step>
+  <Step title="Connect RescueGroups.org">
+    Find the RescueGroups.org integration and select **Connect RescueGroups.org**. You'll be prompted to enter your RescueGroups.org account number — you only need to enter this once.
+  </Step>
+  <Step title="Choose what to bring in">
+    Select which record types to import: animals, people, events, applications, and medical records. You can include all of them or limit to the types you need.
+  </Step>
+  <Step title="Map your fields">
+    For each record type, tell RescueConsole where each RescueGroups.org field should land. Most standard fields map automatically, but you can override any mapping and direct fields — including ones you don't have a built-in home for — into custom fields you've created in RescueConsole.
+  </Step>
+  <Step title="Map statuses and contact types">
+    Match your RescueGroups.org animal statuses to RescueConsole statuses, and your RescueGroups.org contact types to RescueConsole person roles. This step ensures that an animal marked "Available" in RescueGroups.org arrives with the equivalent status in RescueConsole.
+  </Step>
+  <Step title="Run the first sync">
+    Save your configuration and trigger the first sync. RescueConsole pulls your records from RescueGroups.org. Depending on how many records you have, the first import may take several minutes.
+  </Step>
+</Steps>
+
+After the first sync succeeds, RescueConsole continues to sync automatically every hour. Changes in RescueGroups.org flow into RescueConsole on the next scheduled run.
+
+<Tip>
+  Field mapping is where the integration pays for itself. Take time to review your RescueGroups.org statuses and contact types and match each one to the closest RescueConsole equivalent. Animals and people will arrive in the right state from the first run — and you won't need to clean up statuses manually afterward.
+</Tip>
+
+## Understanding the sync
+
+<Accordion title="How often does the sync run?">
+  After the first successful sync, RescueConsole checks RescueGroups.org for changes every hour. You don't need to trigger it manually — it runs on its own in the background.
+</Accordion>
+
+<Accordion title="What happens to records I've edited in RescueConsole?">
+  Records that originated in RescueGroups.org continue to receive updates from that source. If you've added notes, tasks, or documents in RescueConsole that aren't part of the sync, those stay intact. For fields that the sync manages, the RescueGroups.org value takes precedence on each run.
+</Accordion>
+
+<Accordion title="Can I map a RescueGroups.org field to a custom field I created?">
+  Yes. During field mapping setup, your custom fields appear alongside built-in RescueConsole fields as mapping destinations. This means you can bring across any field RescueGroups.org tracks, even if RescueConsole doesn't have a built-in equivalent.
+</Accordion>
+
+<Accordion title="What if a status in RescueGroups.org doesn't have an equivalent in RescueConsole?">
+  You can create a new status in RescueConsole to match, or map the RescueGroups.org status to the closest existing one. The status mapping screen shows all your RescueConsole statuses alongside the ones coming from RescueGroups.org so you can make the call for each.
+</Accordion>
+
+<Accordion title="Can I re-run the field mapping after the first sync?">
+  Yes. Go back to **Settings → Integrations** and update your field mapping at any time. The changes take effect on the next sync run.
+</Accordion>
+
+## Disconnecting RescueGroups.org
+
+To stop the sync, go to **Settings → Integrations** and disconnect the integration. Records already imported into RescueConsole are not deleted — they remain in place. The hourly sync simply stops, and no further changes from RescueGroups.org are pulled in.

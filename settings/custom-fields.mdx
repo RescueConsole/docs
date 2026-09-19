@@ -1,0 +1,92 @@
+---
+title: "Custom Fields for Animals, People, Donations, and More"
+sidebarTitle: "Custom Fields"
+description: "Add your own fields to animals, people, donations, and more. Control which fields appear on each form, set required fields, and export custom data to CSV."
+---
+
+Every rescue tracks something unique — a behavioral intake score, a sponsor name, a vet authorization code. Custom fields let you capture exactly what your organization needs on any record, then surface those fields on the right form in the right order, require them when they matter, and carry them through to exports and imports.
+
+## Where you can add custom fields
+
+Custom fields are available on all of the following record types:
+
+<CardGroup cols={2}>
+  <Card title="Animals" icon="paw">
+    Anything your standard fields don't cover — sponsorship status, behavioral scores, transport origin, or internal notes.
+  </Card>
+  <Card title="People" icon="person">
+    Role-specific information like volunteer availability, foster home details, or donor recognition preferences — shown per role (see below).
+  </Card>
+  <Card title="Organizations" icon="building">
+    Relationship notes, contract numbers, or any other data you track about vet practices, rescues, and suppliers.
+  </Card>
+  <Card title="Donations" icon="hand-holding-dollar">
+    Fund designations, campaign codes, or gift restrictions beyond the built-in fields.
+  </Card>
+  <Card title="Campaigns" icon="bullhorn">
+    Grant tracking details, reporting categories, or external IDs that tie a campaign to another system.
+  </Card>
+  <Card title="Shifts" icon="clock">
+    Site-specific requirements, training prerequisites, or coordinator notes attached to a shift window.
+  </Card>
+  <Card title="Events" icon="calendar-star">
+    Venue information, sponsor acknowledgements, or logistics data that doesn't fit the standard event fields.
+  </Card>
+</CardGroup>
+
+## Field types
+
+When you create a custom field, choose the type that fits your data:
+
+| Type | Use it for |
+|---|---|
+| **Text** | Short free-form answers: a microchip source, an external ID. |
+| **Long text** | Multi-line notes or narratives. |
+| **Number** | Numeric values: behavioral scores, intake counts. |
+| **Date** | Specific dates: a behavioral assessment date, a hold expiry. |
+| **Checkbox** | Yes/no flags: "spay/neuter prior to placement," "transport eligible." |
+| **Select** | A single choice from a list you define. |
+| **Multi-select** | One or more choices from a list you define. |
+
+## Record layouts
+
+Custom fields don't appear anywhere until you place them in a record layout. Go to **Settings → Record layouts** to control which fields appear on each form, in what order, and whether they are required.
+
+A record layout is separate for:
+
+- **The intake form** — the fields shown when you first add an animal or person.
+- **The record view** — the fields shown (and editable) on the record itself after creation.
+
+Keeping these two layouts separate means you can ask for only the essentials at intake, then surface the full field set on the record where the team fills in details over time.
+
+### Required fields
+
+Mark any field **Required** in the layout editor. A required field must be filled before the form can be submitted. Required fields in the record view prevent saving a record with that section incomplete.
+
+### Field order
+
+Drag fields up or down within a section to set the order they appear. Sections themselves can be reordered the same way.
+
+## Fields per person role
+
+People in RescueConsole can hold multiple roles — volunteer, foster, and donor at once. The People record shows a tab for each role a person holds, and each tab can have its own set of custom fields.
+
+This means you can collect foster home capacity and pet restrictions on the **Foster** tab without cluttering the **Volunteer** tab, and track donation acknowledgement preferences on the **Donor** tab without those fields appearing anywhere else. Go to **Settings → Record layouts → People** and select the role tab you want to configure.
+
+<Tip>
+  Role-specific fields only appear when that role has been added to the person's record. If a person is not marked as a foster, their Foster tab — and its fields — won't show at all.
+</Tip>
+
+## Custom fields in exports
+
+Every CSV export includes your custom fields. When you export a list from Animals, People, or any other workspace, choose **All fields** to include custom fields alongside the standard ones. The column header matches the field label you set in Settings.
+
+## Custom field mapping during import
+
+When you import animals or people from a spreadsheet, the column mapper lets you point any column in your file at a custom field you've already created. This means you can bring in data from a previous system and land it exactly where it needs to go — no reformatting required.
+
+<Accordion title="Tips for keeping custom fields manageable">
+  - Group related fields in a named section so the form stays readable as fields accumulate.
+  - Use **Select** and **Multi-select** types instead of free text wherever your team needs to filter or report on the data — free text values don't group consistently in list filters.
+  - If a field applies to most records but not all, leave it optional in the layout rather than required — required fields that often don't apply create friction at intake.
+</Accordion>

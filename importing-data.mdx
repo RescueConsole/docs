@@ -1,0 +1,114 @@
+---
+title: "Import Animals, People, and Donations from a Spreadsheet"
+sidebarTitle: "Import Data"
+description: "Bring your existing animals, people, donations, and events into RescueConsole from a CSV file, with column mapping, photo import, and custom field support."
+---
+
+If your rescue has years of history in spreadsheets, you don't have to start from scratch. RescueConsole's spreadsheet importer lets you bring in animals, people, donations, and events with full control over how each column maps to fields in the platform — including any custom fields you've added. You can import on your very first day, and you can re-import or top up your data at any time.
+
+<Tip>
+  Every list in RescueConsole can also be exported as a CSV at any time —
+  animals, people, donations, events, and more, with all visible fields
+  including custom ones. Your data is always yours to take with you.
+</Tip>
+
+## What you can import
+
+| Record type | What comes across |
+|---|---|
+| **Animals** | Profile fields, intake details, statuses, species, breed, photos, notes, and custom fields |
+| **People** | Names, contact details, roles (adopter, foster, volunteer, donor), notes, and custom fields |
+| **Donations** | Amount, date, donor, campaign, payment method, and custom fields |
+| **Events** | Name, date, location, status, and custom fields |
+
+<Note>
+  If you're migrating from **RescueGroups.org** or **ShelterLuv**, use the
+  dedicated integrations under **Settings → Integrations** rather than the
+  spreadsheet importer. Those integrations bring across medical records, photos,
+  applications, journal entries, and more with field-level mapping — far more
+  than a CSV can carry.
+</Note>
+
+## Prepare your CSV
+
+The importer is flexible about column names and order — you map each column yourself — but a few things will make the process smoother:
+
+- **One row per record.** Each animal, person, or donation gets its own row.
+- **Consistent values in status and type columns.** If your spreadsheet uses "Available", "In Foster", and "Adopted", you'll map each of those to a RescueConsole status during import. Spelling consistency within the file saves mapping time.
+- **Dates in a standard format.** ISO format (`2024-03-15`) or common formats like `03/15/2024` are recognized automatically.
+- **Photos as filenames or URLs.** If your photos are in a folder, name each photo with the same identifier (such as an animal ID) that appears in your spreadsheet. If they're hosted online, a column of direct image URLs works too.
+- **One file per record type.** Run a separate import for animals, then people, then donations — the importer handles one type at a time.
+
+## Import process
+
+<Steps>
+
+  ### Open the importer
+
+  Go to **Settings → Import** and choose the type of record you're importing: Animals, People, Donations, or Events. Then click **Upload file** and select your CSV.
+
+  RescueConsole reads the first few rows and shows you a preview of your data alongside the list of available fields to map to.
+
+  ### Map your columns
+
+  For each column in your file, choose the RescueConsole field it should fill. You don't have to map every column — unmapped columns are ignored. Any custom fields you've already created appear in the field list alongside the standard ones.
+
+  - If your file has a column for a value RescueConsole stores differently (such as a combined "First Last" name column vs. separate first and last name fields), the importer gives you tools to split and reformat values before they're saved.
+  - For status columns, you'll see a secondary mapping step where you match each unique value in your file to one of your configured statuses in RescueConsole.
+
+  ### Map photos
+
+  If your animals have photos, tell the importer which column holds the photo reference. You have two options:
+
+  - **File names** — upload a ZIP file alongside your CSV containing the photos. The importer matches each row to its photo by the filename in the column you mapped.
+  - **URLs** — if photos are hosted somewhere accessible, the importer fetches them directly from the URL in each row.
+
+  The first photo found for an animal is set as its profile photo. Additional photos are added to the animal's media gallery.
+
+  ### Review and confirm
+
+  Before anything is written to your data, the importer shows you a summary: how many records will be created, how many will be skipped (due to missing required fields or errors), and a sample of what the imported records will look like.
+
+  Fix any flagged issues in your CSV and re-upload, or proceed if everything looks right. The import runs in the background — for large files, you'll receive an in-app notification when it's complete.
+
+  ### Review imported records
+
+  Once the import finishes, a results report shows exactly what came in, what was skipped, and why. Open the relevant list (Animals, People, Donations) to see your records.
+
+  From here you can bulk-edit statuses, add missing information, or run a follow-up import with corrected rows for any that were skipped.
+
+</Steps>
+
+## Duplicate detection for people records
+
+<Warning>
+  The importer checks each incoming person against your existing records by
+  email address. If a match is found, the importer links the incoming data to
+  the existing person rather than creating a duplicate — but it does not
+  automatically merge or overwrite fields that already have values. Review your
+  people list after import and use the manual merge tool for any remaining
+  duplicates the importer couldn't resolve automatically.
+</Warning>
+
+RescueConsole identifies potential duplicate person records by matching on email address. When a match is found during import:
+
+- Fields that are empty on the existing record are filled from the incoming row.
+- Fields that already have a value on the existing record are left as-is.
+- The incoming roles (adopter, foster, volunteer, donor) are added to the existing record if they aren't already present.
+
+After import, go to **People** and look for the duplicate indicator flag on any records the system flagged for manual review.
+
+## Custom fields
+
+Any custom fields you've created on animals, people, donations, or events appear in the column mapping step alongside the standard fields. Map a column to a custom field the same way you'd map any other column.
+
+If you need custom fields that don't exist yet, create them under **Settings → Custom fields** before running your import — you can add them and then come back to the importer.
+
+## After your import
+
+Once your records are in, a few steps help you get the most out of them:
+
+- **Set animal statuses** — if your spreadsheet used different status names, confirm that everything mapped to the right RescueConsole status, especially the care state that drives dashboard counts.
+- **Review people roles** — check that adopters, fosters, volunteers, and donors each have the right roles on their records. Roles control which tab shows their history.
+- **Link animals to people** — adoption and foster relationships can be established from the animal record after import if they weren't carried in the spreadsheet.
+- **Connect RescueGroups.org or ShelterLuv** — if you're also running an integration, connect it after your initial import so the integration sync picks up from where the spreadsheet left off.

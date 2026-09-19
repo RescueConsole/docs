@@ -1,0 +1,52 @@
+---
+title: "Message Templates and Merge Fields in RescueConsole"
+sidebarTitle: "Templates"
+description: "Build reusable message templates with merge fields that pull live data from animal and person records, so your team sends consistent, personalized replies."
+---
+
+Message templates save your team from rewriting the same replies over and over. Write an approval message, a foster welcome, a donation thank-you, or an adoption contract once, and anyone on your team can send it in one click. Merge fields pull the right name, animal, and details from the record automatically, so every message is personal even though it was written in advance.
+
+## Creating a template
+
+Templates live in **Settings → Communications**. Each template has a name (internal, for your team to recognize it), a subject line, and a rich-text body. You format the body the way you would an email — headings, bullet points, bold text, and links are all supported.
+
+RescueConsole ships a set of starter templates when you first set up your account, covering common scenarios like adoption approvals, foster placements, and donation acknowledgements. Edit them to match your organization's voice, or create new ones from scratch.
+
+## Merge fields
+
+Merge fields insert live data from the record into your message at send time. Rather than typing the field syntax by hand, you insert merge fields using buttons in the template editor — each button inserts the exact, correctly spelled field reference for you. The same merge field buttons are available in the template editor, in the reply composer, and in Compose, so you can use them anywhere you write a message.
+
+Common merge fields include the animal's name, the applicant's name, the adoption fee, and details about the application or placement. A merge field looks like this in the template body:
+
+```
+{{animal.name}}
+{{applicant.name}}
+{{adoption.fee}}
+{{organization.name}}
+```
+
+When you send the message, RescueConsole replaces each field with the value from the record the message concerns.
+
+### One template, every animal on the application
+
+When a template references `{{animal.name}}` and the application covers more than one pet, the merge field resolves to every animal on that application. You write the template once and it names all of them without any extra work.
+
+<Warning>
+  A message with a merge field that cannot be filled — because the field is empty or the record does not have that data — will not be sent. The template editor will tell you which field is broken before you can save or send, so a partially filled message never reaches an adopter or donor by mistake.
+</Warning>
+
+## Signatures
+
+Each team member can set a personal signature in their account settings. When they send a message, their signature is appended automatically. Signatures support rich text, so you can include your name, title, phone number, and a link to your website.
+
+## Open and click tracking
+
+RescueConsole tracks whether recipients open your messages and click any links you include. Tracking results appear on the conversation, so you know whether an adopter has read their approval email before following up by phone.
+
+## Adoption contracts and agreements
+
+Adoption contracts and other agreements are a type of template that is filled from the record rather than a free-form message. You write the contract the way you write an email — with merge fields in place of the names, dates, and fees — and RescueConsole fills it from the adoption record when it is time to send. The adopter signs it digitally, and the signed copy is filed against both the person record and the animal record. Nobody retypes a name, and no unsigned contracts get lost in an email thread.
+
+## Using templates when you reply
+
+When you are composing a reply or writing a new message, open the template picker to find the template you want. Select it and the subject and body are inserted into your composer. You can edit the message before sending — merge fields stay live until you hit send, when they resolve to the record's actual values.

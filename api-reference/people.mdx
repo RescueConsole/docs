@@ -1,0 +1,341 @@
+---
+title: "People API: List, Retrieve, and Update Person Records"
+sidebarTitle: "People"
+description: "Access adopter, foster, volunteer, and donor records through a single unified People API — one record per person, however many roles they hold."
+---
+
+RescueConsole keeps a single record for every person your organization touches. Someone who applied to adopt, then became a foster, then started volunteering is one person — not three separate contacts in different lists. The People API reflects this model: each record can carry multiple roles simultaneously, and every role's history sits in one place. Use this API to look up people by ID, list your contacts with filters, create new person records, and update information as it changes.
+
+<Note>
+  A person can hold multiple roles at the same time — adopter, foster, volunteer, and donor are all valid roles for the same record. The `roles` array on each person reflects every role currently assigned. When you create or update a record, pass the full intended list of roles rather than a single value; the API replaces the roles array with what you send.
+</Note>
+
+---
+
+## List People
+
+Retrieve a paginated list of person records.
+
+```http
+GET /people
+```
+
+### Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number to retrieve.
+</ParamField>
+
+<ParamField query="perPage" type="integer" default="25">
+  Number of records per page. Maximum `100`.
+</ParamField>
+
+<ParamField query="role" type="string">
+  Filter to people who hold a specific role. Accepted values include `adopter`, `foster`, `volunteer`, `donor`. Can be specified multiple times.
+</ParamField>
+
+<ParamField query="email" type="string">
+  Filter by exact email address.
+</ParamField>
+
+<ParamField query="tag" type="string">
+  Filter to people who have a specific tag applied.
+</ParamField>
+
+<ParamField query="q" type="string">
+  Full-text search across name, email, and phone fields.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/people?role=volunteer&perPage=50" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "pers_01hy2a4bnq7c9wd3km8ex5rp",
+      "firstName": "Margot",
+      "lastName": "Reyes",
+      "email": "margot.reyes@example.com",
+      "phone": "+14155550182",
+      "roles": ["volunteer", "foster"],
+      "tags": ["experienced", "large-dogs"],
+      "timeZone": "America/Los_Angeles",
+      "createdAt": "2026-07-03T11:00:00Z",
+      "updatedAt": "2026-09-10T16:45:00Z"
+    }
+  ],
+  "meta": {
+    "total": 214,
+    "page": 1,
+    "perPage": 50,
+    "totalPages": 5
+  }
+}
+```
+
+---
+
+## Retrieve a Person
+
+Fetch the full record for a single person by ID.
+
+```http
+GET /people/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the person record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/people/pers_01hy2a4bnq7c9wd3km8ex5rp" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for this person record.
+</ResponseField>
+
+<ResponseField name="firstName" type="string">
+  The person's first name.
+</ResponseField>
+
+<ResponseField name="lastName" type="string">
+  The person's last name.
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  Primary email address.
+</ResponseField>
+
+<ResponseField name="phone" type="string">
+  Primary phone number in E.164 format (e.g. `+14155550182`). May be `null`.
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  Structured address object. Fields vary by country.
+
+  <Expandable title="address fields">
+    <ResponseField name="address.line1" type="string">
+      Street address line 1.
+    </ResponseField>
+    <ResponseField name="address.line2" type="string">
+      Street address line 2 (apartment, suite, etc.). May be `null`.
+    </ResponseField>
+    <ResponseField name="address.city" type="string">
+      City.
+    </ResponseField>
+    <ResponseField name="address.state" type="string">
+      State or province abbreviation (e.g. `CA`, `ON`).
+    </ResponseField>
+    <ResponseField name="address.postalCode" type="string">
+      ZIP or postal code.
+    </ResponseField>
+    <ResponseField name="address.country" type="string">
+      Two-letter ISO 3166-1 alpha-2 country code (e.g. `US`, `CA`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="roles" type="array of strings">
+  All roles currently held by this person. Possible values include `adopter`, `foster`, `volunteer`, `donor`. An empty array means no roles are assigned.
+</ResponseField>
+
+<ResponseField name="tags" type="array of strings">
+  Custom tags applied to this person's record.
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Internal notes visible to your team. May be `null`.
+</ResponseField>
+
+<ResponseField name="timeZone" type="string">
+  IANA time zone identifier (e.g. `America/New_York`). Used to display shift times in the person's local time.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string (ISO 8601)">
+  Timestamp when the record was created.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string (ISO 8601)">
+  Timestamp when the record was last updated.
+</ResponseField>
+
+### Example Response
+
+```json
+{
+  "id": "pers_01hy2a4bnq7c9wd3km8ex5rp",
+  "firstName": "Margot",
+  "lastName": "Reyes",
+  "email": "margot.reyes@example.com",
+  "phone": "+14155550182",
+  "address": {
+    "line1": "842 Clementine Ave",
+    "line2": "Apt 3B",
+    "city": "Oakland",
+    "state": "CA",
+    "postalCode": "94601",
+    "country": "US"
+  },
+  "roles": ["volunteer", "foster"],
+  "tags": ["experienced", "large-dogs"],
+  "notes": "Approved for large-breed fosters. Has a secure yard.",
+  "timeZone": "America/Los_Angeles",
+  "createdAt": "2026-07-03T11:00:00Z",
+  "updatedAt": "2026-09-10T16:45:00Z"
+}
+```
+
+---
+
+## Create a Person
+
+Add a new person record to your organization.
+
+```http
+POST /people
+```
+
+### Request Body
+
+<ParamField body="firstName" type="string" required>
+  The person's first name.
+</ParamField>
+
+<ParamField body="lastName" type="string" required>
+  The person's last name.
+</ParamField>
+
+<ParamField body="email" type="string" required>
+  Primary email address. Must be unique within your organization.
+</ParamField>
+
+<ParamField body="phone" type="string">
+  Primary phone number. Provide in E.164 format (e.g. `+14155550182`) for best results.
+</ParamField>
+
+<ParamField body="address" type="object">
+  Structured address. Accepts `line1`, `line2`, `city`, `state`, `postalCode`, and `country` fields.
+</ParamField>
+
+<ParamField body="roles" type="array of strings">
+  Roles to assign. Accepted values: `adopter`, `foster`, `volunteer`, `donor`. Pass an empty array or omit to create a person with no roles yet.
+</ParamField>
+
+<ParamField body="tags" type="array of strings">
+  Tags to apply to the person's record.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Internal notes about this person.
+</ParamField>
+
+<ParamField body="timeZone" type="string">
+  IANA time zone identifier. Defaults to your organization's time zone if omitted.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST "https://your-org.rescueconsole.com/api/v1/people" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "firstName": "Devon",
+    "lastName": "Okafor",
+    "email": "devon.okafor@example.com",
+    "phone": "+13105550394",
+    "roles": ["adopter"],
+    "timeZone": "America/Chicago"
+  }'
+```
+
+### Response
+
+Returns `201 Created` with the full person record as the response body.
+
+---
+
+## Update a Person
+
+Update one or more fields on an existing person record. Only fields included in the request body are changed.
+
+```http
+PATCH /people/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the person record to update.
+</ParamField>
+
+### Request Body
+
+All fields are optional. Include only what you want to change.
+
+<ParamField body="firstName" type="string">
+  Updated first name.
+</ParamField>
+
+<ParamField body="lastName" type="string">
+  Updated last name.
+</ParamField>
+
+<ParamField body="email" type="string">
+  Updated email address. Must remain unique within your organization.
+</ParamField>
+
+<ParamField body="phone" type="string">
+  Updated phone number in E.164 format.
+</ParamField>
+
+<ParamField body="address" type="object">
+  Updated address. Providing this field replaces the entire address object.
+</ParamField>
+
+<ParamField body="roles" type="array of strings">
+  Updated roles list. This replaces the entire `roles` array — include all roles you want the person to hold after the update.
+</ParamField>
+
+<ParamField body="tags" type="array of strings">
+  Updated tags list. This replaces the entire `tags` array.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Updated internal notes. Pass an empty string to clear existing notes.
+</ParamField>
+
+<ParamField body="timeZone" type="string">
+  Updated IANA time zone identifier.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PATCH "https://your-org.rescueconsole.com/api/v1/people/pers_01hy2a4bnq7c9wd3km8ex5rp" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "roles": ["volunteer", "foster", "adopter"],
+    "tags": ["experienced", "large-dogs", "completed-adoption"]
+  }'
+```
+
+### Response
+
+Returns `200 OK` with the full updated person record as the response body.

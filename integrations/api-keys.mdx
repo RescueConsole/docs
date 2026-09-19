@@ -1,0 +1,116 @@
+---
+title: "API Keys: Connecting RescueConsole to External Tools"
+sidebarTitle: "API Keys"
+description: "Create API keys to read and write RescueConsole data from Zapier, Make, or custom code. Each key carries the access level of the member role it is tied to."
+---
+
+API keys let external systems — automation platforms like Zapier or Make, or code you write yourself — read and write RescueConsole data on behalf of your organization. Each key carries the same permissions as the member role it was created with, so a key tied to a read-only role can only read, and a key tied to an admin role can do everything that admin can.
+
+## What API keys do
+
+When you send a request to RescueConsole with an API key in the header, RescueConsole treats that request exactly as it would treat an action from the team member whose role the key matches. The key can read records, create records, update them, and trigger the same workflows a person would trigger — all scoped to the permissions of its role.
+
+Use API keys to:
+
+<CardGroup cols={2}>
+  <Card title="Connect Zapier or Make" icon="bolt">
+    Automate tasks across your rescue without writing code. Pass the key to a Zapier or Make HTTP action and work with any RescueConsole record.
+  </Card>
+  <Card title="Build custom integrations" icon="code">
+    Write scripts or applications that push data into RescueConsole or pull it out on a schedule — donor reports, animal feeds, sync to a partner system.
+  </Card>
+  <Card title="Power your own website" icon="globe">
+    Fetch adoptable animals, events, or donor data from RescueConsole to display on a site you manage separately.
+  </Card>
+  <Card title="Connect other platforms" icon="plug">
+    Send data to CRMs, email marketing tools, grant management software, or any service with an HTTP endpoint.
+  </Card>
+</CardGroup>
+
+## Creating an API key
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Go to **Settings → Integrations**. This is where all your external connections live — API keys, webhooks, and third-party integrations.
+  </Step>
+  <Step title="Create a new key">
+    Select **New API key**. Give the key a descriptive name — something that tells you which system or person is using it, like `Zapier automations` or `Custom adoption feed`.
+  </Step>
+  <Step title="Choose a permission role">
+    Select the member role this key will act as. The key inherits every permission that role has across all workspaces. Choose the least-privileged role that still allows the key to do what you need.
+  </Step>
+  <Step title="Copy the key immediately">
+    After creation, copy the key and store it somewhere secure. RescueConsole does not show the full key again after you leave this screen — only the name and the last few characters remain visible.
+  </Step>
+</Steps>
+
+<Warning>
+  An API key carries the same access level as the member role it was created with. Anyone who holds the key can read, write, or delete records up to that permission level. Treat every API key like a password: store it in a secrets manager or environment variable, never in source code or a shared document, and revoke it immediately if you believe it has been exposed.
+</Warning>
+
+## Passing a key in an API request
+
+Include your API key as a Bearer token in the `Authorization` header of every request:
+
+```http
+GET /api/v1/animals HTTP/1.1
+Host: api.rescueconsole.com
+Authorization: Bearer YOUR_API_KEY_HERE
+```
+
+Most HTTP clients and automation platforms have a dedicated field for Bearer tokens. In Zapier, add a **Headers** step or use the **Custom Request** action and enter `Authorization` as the header name with `Bearer YOUR_KEY` as the value. In Make, use the HTTP module's **Headers** section the same way.
+
+## Using API keys with Zapier and Make
+
+You do not need to write code to use API keys with Zapier or Make. Both platforms have HTTP request modules that accept a URL, a method, and custom headers.
+
+<Tabs>
+  <Tab title="Zapier">
+    1. In your Zap, add a **Webhooks by Zapier** action step and choose **Custom Request**.
+    2. Set the method (`GET`, `POST`, `PATCH`, or `DELETE`) and the RescueConsole endpoint URL.
+    3. Under **Headers**, add `Authorization` with the value `Bearer YOUR_API_KEY`.
+    4. Pass any request body as JSON under **Data**.
+    5. Test the step — Zapier shows the response so you can map fields into later steps.
+  </Tab>
+  <Tab title="Make">
+    1. Add an **HTTP → Make a request** module to your scenario.
+    2. Enter the RescueConsole endpoint URL and select the method.
+    3. Under **Headers**, add `Authorization: Bearer YOUR_API_KEY`.
+    4. Set the request body type to **Raw** and the content type to `application/json`.
+    5. Run the module once to capture the response schema, then map fields to the next module.
+  </Tab>
+  <Tab title="Custom code">
+    Pass the `Authorization` header in whatever HTTP library your language uses. Below is a Python example using the `requests` library:
+
+    ```python
+    import requests
+
+    headers = {
+        "Authorization": "Bearer YOUR_API_KEY_HERE",
+        "Content-Type": "application/json",
+    }
+
+    response = requests.get(
+        "https://api.rescueconsole.com/api/v1/animals",
+        headers=headers,
+    )
+
+    animals = response.json()
+    ```
+  </Tab>
+</Tabs>
+
+## Managing and revoking keys
+
+All your active API keys are listed under **Settings → Integrations**. From there you can:
+
+- **Rename** a key to keep track of which system uses it.
+- **Revoke** a key immediately, which stops all requests using that key from succeeding.
+
+<Tip>
+  Create one key per external system rather than sharing a single key across multiple integrations. That way, if you need to revoke a key for one system, the others keep working without interruption.
+</Tip>
+
+## Security and data handling
+
+RescueConsole seals integration credentials — including API keys — at rest. If your organization account is cancelled, all API keys are permanently purged within 90 days of cancellation, consistent with RescueConsole's terms.

@@ -1,0 +1,125 @@
+---
+title: "API Authentication: Keys, Permissions, and Best Practices"
+sidebarTitle: "Authentication"
+description: "Generate an API key in Settings → Integrations, pass it as a Bearer token on every request, and follow best practices to keep your key secure."
+---
+
+Every request to the RescueConsole API must include a valid API key. Keys are generated inside the app and tied to a member's role, so they carry exactly the permissions that role grants — no more, no less. There are no separate API-only permission sets to configure; if the role can write animal records, the key can too.
+
+## Create an API Key
+
+<Steps>
+  <Step title="Open Settings → Integrations">
+    Sign in to RescueConsole and navigate to **Settings → Integrations → API Keys**.
+  </Step>
+  <Step title="Generate a new key">
+    Click **New API Key**, give it a descriptive name (for example, "Zapier sync" or "Dashboard export"), and confirm.
+  </Step>
+  <Step title="Copy the key immediately">
+    The full key value is shown exactly once, immediately after creation. Copy it to a secure location before closing the dialog.
+  </Step>
+  <Step title="Store it securely">
+    Paste the key into your integration's environment configuration — never into source code or a public repository.
+  </Step>
+</Steps>
+
+<Warning>
+  The API key is shown only once. If you close the dialog without copying it, you cannot retrieve the value again — you must revoke the key and generate a new one. Treat it like a password.
+</Warning>
+
+## Pass the Key on Every Request
+
+Include the key as a Bearer token in the `Authorization` header:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+<Tabs>
+  <Tab title="curl">
+    ```bash
+    curl -X GET "https://your-org.rescueconsole.com/api/v1/animals" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json"
+    ```
+  </Tab>
+  <Tab title="JavaScript (fetch)">
+    ```javascript
+    const response = await fetch(
+      'https://your-org.rescueconsole.com/api/v1/animals',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${process.env.RESCUE_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    ```
+  </Tab>
+  <Tab title="Python (requests)">
+    ```python
+    import os
+    import requests
+
+    api_key = os.environ.get("RESCUE_API_KEY")
+    base_url = "https://your-org.rescueconsole.com/api/v1"
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    response = requests.get(f"{base_url}/animals", headers=headers)
+    data = response.json()
+    print(data)
+    ```
+  </Tab>
+</Tabs>
+
+## What Happens With an Invalid Key
+
+If the key is missing, malformed, or has been revoked, the API returns a `401 Unauthorized` response:
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "The API key provided is invalid or has been revoked."
+  }
+}
+```
+
+If the key is valid but the associated role does not have permission for the operation you requested, you receive a `403 Forbidden` response instead.
+
+## Key Permissions
+
+API keys inherit the role of the member account that generated them. The role determines which workspaces the key can read and write, and whether it can perform admin operations such as changing settings.
+
+| Role level | What the API key can do |
+|------------|------------------------|
+| Organization Admin | Full read and write across all workspaces |
+| Workspace Admin | Full read and write within assigned workspaces |
+| Standard member | Read and write as configured for that role |
+| Read Only | Read only — all write operations return `403` |
+
+If you need a key with narrower access than your own account, ask an organization admin to generate the key from a lower-privilege member account.
+
+## Revoking a Key
+
+To revoke a key, go to **Settings → Integrations → API Keys**, find the key by its name, and click **Revoke**. Any request using that key will immediately begin returning `401`. Revocation cannot be undone — generate a new key if you need to restore access.
+
+## Security Best Practices
+
+<Tip>
+  Follow these habits to keep your integration secure:
+</Tip>
+
+- **Use environment variables.** Store your API key in an environment variable (such as `RESCUE_API_KEY`) rather than hardcoding it in your application source code.
+- **Never commit keys to source control.** Add your `.env` file to `.gitignore` and audit your repository history if you accidentally expose a key. Revoke and replace it immediately.
+- **Create one key per integration.** Give each connection — Zapier, your custom script, your reporting tool — its own named key. If one is compromised, you can revoke only that key without disrupting others.
+- **Use the least-privilege role.** If an integration only reads data, generate the key from a read-only account so a leaked key cannot modify records.
+- **Rotate keys periodically.** Revoke and regenerate keys on a regular schedule, especially after staff changes.

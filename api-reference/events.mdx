@@ -1,0 +1,329 @@
+---
+title: "Events API: Create, Update, and Publish Rescue Events"
+sidebarTitle: "Events"
+description: "Create and manage adoption days, fundraisers, clinics, and other events — including publishing them to your rescue's public website."
+---
+
+The Events API gives you programmatic access to your organization's events — adoption days, fundraisers, clinics, training sessions, and team meetings. Events in RescueConsole connect to the animals attending, the shifts that staff them, and your public website. When you set an event to public, it appears on your rescue's website immediately. Use this API to sync events from an external calendar, automate event creation as part of a larger workflow, or pull attendance and scheduling data into reports.
+
+<Tip>
+  Setting `isPublic` to `true` on a new or existing event immediately publishes it to your rescue's public website, including any animals listed in the `animals` array. To take an event off your site without cancelling it, update the record and set `isPublic` to `false`.
+</Tip>
+
+---
+
+## List Events
+
+Retrieve a paginated list of events. Filter by status, type, date range, or public visibility.
+
+```http
+GET /events
+```
+
+### Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number to retrieve.
+</ParamField>
+
+<ParamField query="perPage" type="integer" default="25">
+  Number of records per page. Maximum `100`.
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by event status. One of `draft`, `scheduled`, `completed`, or `cancelled`.
+</ParamField>
+
+<ParamField query="type" type="string">
+  Filter by event type. One of `adoption-day`, `fundraiser`, `clinic`, `training`, or `meeting`.
+</ParamField>
+
+<ParamField query="isPublic" type="boolean">
+  When `true`, returns only events published to your public website. When `false`, returns only non-public events.
+</ParamField>
+
+<ParamField query="startsAfter" type="string">
+  Return events that start on or after this date and time. Format: ISO 8601 (e.g. `2026-10-01T00:00:00Z`).
+</ParamField>
+
+<ParamField query="startsBefore" type="string">
+  Return events that start on or before this date and time. Format: ISO 8601.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/events?type=adoption-day&status=scheduled" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "evt_01hz1m3pqr9vde2kgf5bc7wy",
+      "name": "October Adoption Day at PetSmart",
+      "type": "adoption-day",
+      "status": "scheduled",
+      "startsAt": "2026-10-04T10:00:00Z",
+      "endsAt": "2026-10-04T16:00:00Z",
+      "locationId": "loc_01hw3r2mxpabcd1234ef",
+      "isPublic": true,
+      "description": "Join us for our monthly adoption day! Meet adoptable dogs and cats looking for their forever homes.",
+      "animals": [
+        "anim_01hx9z3kqp4f8vbn2tj7yd6m",
+        "anim_01hx9z4lrp5g9wcn3uk8ze7n"
+      ],
+      "createdAt": "2026-09-15T09:00:00Z"
+    }
+  ],
+  "meta": {
+    "total": 12,
+    "page": 1,
+    "perPage": 25,
+    "totalPages": 1
+  }
+}
+```
+
+---
+
+## Retrieve an Event
+
+Fetch the full record for a single event by ID.
+
+```http
+GET /events/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the event record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/events/evt_01hz1m3pqr9vde2kgf5bc7wy" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for this event record.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The event name as it appears internally and, when published, on your public website.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The event type. One of `adoption-day`, `fundraiser`, `clinic`, `training`, or `meeting`.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current event status. One of `draft` (not yet finalized), `scheduled` (confirmed and upcoming), `completed` (the event has passed), or `cancelled` (the event was called off).
+</ResponseField>
+
+<ResponseField name="startsAt" type="string (ISO 8601)">
+  The date and time the event starts, in UTC.
+</ResponseField>
+
+<ResponseField name="endsAt" type="string (ISO 8601)">
+  The date and time the event ends, in UTC. May be `null` if no end time has been set.
+</ResponseField>
+
+<ResponseField name="locationId" type="string">
+  The ID of the location where the event takes place. May be `null` for virtual or off-site events with no location record.
+</ResponseField>
+
+<ResponseField name="isPublic" type="boolean">
+  Whether this event is currently published to your public website.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  A description of the event. Shown on your public website when the event is published. May be `null`.
+</ResponseField>
+
+<ResponseField name="animals" type="array of strings">
+  IDs of animal records attending this event. These animals are featured on the public event listing when `isPublic` is `true`.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string (ISO 8601)">
+  Timestamp when the event record was created.
+</ResponseField>
+
+---
+
+## Create an Event
+
+Add a new event to your organization's calendar.
+
+```http
+POST /events
+```
+
+### Request Body
+
+<ParamField body="name" type="string" required>
+  The event name.
+</ParamField>
+
+<ParamField body="type" type="string" required>
+  The event type. One of `adoption-day`, `fundraiser`, `clinic`, `training`, or `meeting`.
+</ParamField>
+
+<ParamField body="status" type="string" default="draft">
+  The initial status. One of `draft` or `scheduled`. Defaults to `draft`.
+</ParamField>
+
+<ParamField body="startsAt" type="string" required>
+  Event start date and time in ISO 8601 format (e.g. `2026-10-04T10:00:00Z`).
+</ParamField>
+
+<ParamField body="endsAt" type="string">
+  Event end date and time in ISO 8601 format. Recommended but not required.
+</ParamField>
+
+<ParamField body="locationId" type="string">
+  The ID of the location where the event takes place.
+</ParamField>
+
+<ParamField body="isPublic" type="boolean" default="false">
+  Set to `true` to immediately publish this event to your public website on creation.
+</ParamField>
+
+<ParamField body="description" type="string">
+  A description of the event. Shown publicly when `isPublic` is `true`.
+</ParamField>
+
+<ParamField body="animals" type="array of strings">
+  IDs of animal records to associate with this event. These animals appear on the public event listing.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST "https://your-org.rescueconsole.com/api/v1/events" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "November Adoption Day",
+    "type": "adoption-day",
+    "status": "scheduled",
+    "startsAt": "2026-11-01T10:00:00Z",
+    "endsAt": "2026-11-01T15:00:00Z",
+    "locationId": "loc_01hw3r2mxpabcd1234ef",
+    "isPublic": false,
+    "description": "Our monthly adoption event. Animals TBC.",
+    "animals": []
+  }'
+```
+
+### Response
+
+Returns `201 Created` with the full event record as the response body.
+
+---
+
+## Update an Event
+
+Update one or more fields on an existing event. Only fields included in the request body are changed.
+
+```http
+PATCH /events/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the event record to update.
+</ParamField>
+
+### Request Body
+
+All fields are optional. Include only what you want to change.
+
+<ParamField body="name" type="string">
+  Updated event name.
+</ParamField>
+
+<ParamField body="type" type="string">
+  Updated event type. One of `adoption-day`, `fundraiser`, `clinic`, `training`, or `meeting`.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Updated event status. One of `draft`, `scheduled`, `completed`, or `cancelled`.
+</ParamField>
+
+<ParamField body="startsAt" type="string">
+  Updated start date and time in ISO 8601 format.
+</ParamField>
+
+<ParamField body="endsAt" type="string">
+  Updated end date and time in ISO 8601 format. Pass `null` to clear the end time.
+</ParamField>
+
+<ParamField body="locationId" type="string">
+  Updated location ID. Pass `null` to remove the location association.
+</ParamField>
+
+<ParamField body="isPublic" type="boolean">
+  Set to `true` to publish this event to your public website; `false` to unpublish it.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Updated event description. Pass an empty string to clear it.
+</ParamField>
+
+<ParamField body="animals" type="array of strings">
+  Updated list of animal IDs attending this event. This replaces the entire `animals` array — include all animals you want associated after the update.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X PATCH "https://your-org.rescueconsole.com/api/v1/events/evt_01hz1m3pqr9vde2kgf5bc7wy" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "isPublic": true,
+    "animals": [
+      "anim_01hx9z3kqp4f8vbn2tj7yd6m",
+      "anim_01hx9z4lrp5g9wcn3uk8ze7n",
+      "anim_01hx9z5mrq6h0xdo4vl9af8p"
+    ]
+  }'
+```
+
+### Response
+
+Returns `200 OK` with the full updated event record as the response body.
+
+---
+
+## Event Types Reference
+
+<Accordion title="adoption-day">
+  A public adoption event where attendees can meet and adopt animals. Link animals to this event type to feature them on your public website's event listing.
+</Accordion>
+
+<Accordion title="fundraiser">
+  A fundraising event such as a gala, auction, or benefit. Fundraiser events can appear on your public site to drive attendance and donations.
+</Accordion>
+
+<Accordion title="clinic">
+  A veterinary or wellness clinic — for example, a low-cost vaccine day or a microchip clinic open to the public or restricted to your fosters.
+</Accordion>
+
+<Accordion title="training">
+  A training session for volunteers or staff. Typically kept private (`isPublic: false`), but can be published if open to the public.
+</Accordion>
+
+<Accordion title="meeting">
+  An internal team or board meeting. Generally kept private.
+</Accordion>

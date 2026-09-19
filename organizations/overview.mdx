@@ -1,0 +1,65 @@
+---
+title: "Tracking Vet Practices, Rescue Partners, and Suppliers"
+sidebarTitle: "Overview"
+description: "Manage vet practices, rescue partners, shelters, suppliers, and employers with dated affiliations that preserve the integrity of medical records."
+---
+
+The Organizations workspace holds every external entity your rescue works with — the vet clinic where your animals get their intake exams, the partner rescue that takes your overflow, the pet supply company that donates food, the employer whose staff volunteer on Fridays. Each organization is its own record, and the people who work there are linked to it through dated affiliations rather than a static field that gets overwritten when someone changes jobs.
+
+## Organization types
+
+Every organization record carries a type that describes what the organization is and a relationship field that describes what it is to you.
+
+<CardGroup cols={2}>
+  <Card title="Veterinary practices" icon="stethoscope">
+    Clinics and hospitals you use for intake exams, surgeries, and emergency care. Set a primary practice and an emergency practice directly on an animal's medical record.
+  </Card>
+  <Card title="Rescue partners and shelters" icon="building">
+    Other rescues and municipal shelters you transfer animals to or receive them from, with your relationship (partner, referral, intake source) tracked separately.
+  </Card>
+  <Card title="Suppliers" icon="boxes-stacked">
+    Food suppliers, equipment vendors, and any business you purchase from or receive in-kind donations through.
+  </Card>
+  <Card title="Employers" icon="briefcase">
+    Employers of your volunteers, useful for corporate volunteer programs, matching gift programs, and grant applications that require employer information.
+  </Card>
+</CardGroup>
+
+The **relationship** field (prospect, client, partner, supplier) is kept separately from the organization type, so a veterinary practice can be marked as a partner, a supplier can be marked as a prospect, and the distinction is always clear.
+
+The **industry** field gives you a second axis for filtering and reporting — useful when you want to find all healthcare-sector organizations you work with, regardless of whether they are a vet clinic, a pharmaceutical supplier, or an employer.
+
+## Dated affiliations
+
+People are connected to organizations through affiliations, and affiliations carry a start date and an end date. When a vet moves from one practice to another, you end their affiliation with the first practice and start one with the new one. Their old records are not touched.
+
+<Note>
+  Because affiliations are dated, the historical medical records that a vet signed at their previous practice continue to show the correct practice for that record. The integrity of your medical history is preserved even as staff move between organizations — you never have to edit old records to reflect a current employment situation.
+</Note>
+
+This matters most for medical records. When you open an animal's vaccine record or surgical procedure and look at which vet and practice signed off on it, you see who was actually responsible at the time the record was created — not where that person works today.
+
+## Primary and emergency practices on medical records
+
+On any animal's medical record you can designate:
+
+- **Primary practice**: the clinic handling this animal's routine care, pre-surgical workup, or ongoing treatment.
+- **Emergency practice**: the clinic to contact outside of normal hours or in a crisis.
+
+Both fields pull from your Organizations list, so the practice name and contact details are always current without you having to maintain them in two places.
+
+## Your own organization's page
+
+RescueConsole includes a record for your own organization, separate from the external organizations you track. This record holds:
+
+- **Locations**: physical addresses for each site you operate from, including foster coordination offices, adoption centers, and storage units.
+- **Hours**: open hours per location, which appear on your public website's contact page.
+- **Primary address**: the address printed on flyers, cage cards, and adoption contracts generated from animal records.
+
+When you update your organization's address or hours in this record, every place that pulls from it — your public site, your printed materials, your email footer — reflects the change automatically.
+
+## Filtering and exporting organizations
+
+The Organizations list filters on type, relationship, industry, and any custom fields you have added. Save a filtered view for the lists you open regularly — your list of active vet practices, for example, or partner rescues in your region.
+
+Export the list as CSV with all fields, including custom fields, for grant reports or contact management.

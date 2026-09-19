@@ -1,0 +1,103 @@
+---
+title: "Setting Up and Customizing Your Rescue's Public Website"
+sidebarTitle: "Public Website"
+description: "Launch eight public pages filled from your rescue's data, connect your own domain, set your logo and accent color, and embed adoptable animals on any site."
+---
+
+RescueConsole generates a complete public website from the data you already maintain — no theme to install, no developer required, and nothing to keep updated separately. The moment you mark an animal public or publish an event, it appears on your site. Your forms, your logo, and your domain make it yours.
+
+## The eight standard pages
+
+Your public website includes eight pages that fill themselves from your RescueConsole data:
+
+<CardGroup cols={2}>
+  <Card title="Adopt" icon="paw">
+    Shows every animal you've marked public, with their photo, description, and a link to your adoption application form.
+  </Card>
+  <Card title="Donate" icon="hand-holding-heart">
+    Accepts one-time and recurring gifts through your Stripe account, with your campaigns and wish list if you choose to display them.
+  </Card>
+  <Card title="Volunteer" icon="hand">
+    Describes your volunteer program and links to your volunteer sign-up form.
+  </Card>
+  <Card title="Foster" icon="house-heart">
+    Describes your foster program and links to your foster application form.
+  </Card>
+  <Card title="About" icon="circle-info">
+    Your organization's story, locations, hours, and contact information, drawn from your organization profile.
+  </Card>
+  <Card title="Resources" icon="book-open">
+    A place for the guidance and links you want adopters, fosters, and the public to find.
+  </Card>
+  <Card title="Events" icon="calendar">
+    Lists your published events, including the animals attending each one.
+  </Card>
+  <Card title="Contact" icon="envelope">
+    Your contact details and an inbound inquiry form that routes to your inbox.
+  </Card>
+</CardGroup>
+
+## Making animals public
+
+An animal appears on your Adopt page when two conditions are met:
+
+1. The animal's **status** has the public toggle enabled (configured in **Settings → Animals → Statuses**).
+2. The animal record itself is marked **Public** in the Animals workspace.
+
+Open any animal record, find the **Public** toggle in the profile section, and turn it on. The animal appears on your site within seconds. Turn it off to remove it without archiving the record.
+
+## Publishing events
+
+Open an event in the Events workspace and set its visibility to **Public**. The event appears on your Events page immediately, including the date, description, location, and any animals listed as attending. When the event passes, it moves off the active list automatically.
+
+The Public page settings let you configure where the events section appears — for example, whether a summary of upcoming events shows on the homepage as well as the dedicated Events page.
+
+## Your logo and accent color
+
+Upload your logo and set an accent color under **Settings → Public website → Branding**. RescueConsole checks your accent color for contrast against both light and dark backgrounds and warns you if the combination could be hard to read. Your logo and color appear consistently on every page — desktop and phone layouts both adapt to them without any separate mobile setup.
+
+## Connecting a custom domain
+
+Your site starts on a subdomain of rescueconsole.com. To use your own domain:
+
+<Steps>
+  <Step title="Enter your domain">
+    Go to **Settings → Public website → Domain** and type the domain or subdomain you want to use (for example, `adopt.happypawsrescue.org`).
+  </Step>
+  <Step title="Copy the DNS record">
+    RescueConsole generates a CNAME record value. Copy it — you'll paste this into your domain registrar or DNS provider.
+  </Step>
+  <Step title="Add the CNAME at your registrar">
+    Log in to wherever you manage your domain (GoDaddy, Namecheap, Cloudflare, etc.). Find the DNS settings and add a new CNAME record pointing your chosen subdomain to the value RescueConsole gave you.
+  </Step>
+  <Step title="Wait for DNS propagation">
+    DNS changes can take a few minutes to a few hours to spread globally. RescueConsole checks automatically and updates your domain status once it detects the record. You'll see a green **Connected** indicator when it's live.
+  </Step>
+  <Step title="SSL is automatic">
+    RescueConsole provisions an SSL certificate for your domain automatically. No additional configuration is needed — your site is served over HTTPS from the moment the domain connects.
+  </Step>
+</Steps>
+
+## Forms on your public website
+
+Every form you build and publish in **Settings → Forms** appears on the relevant page of your public website automatically. Adoption forms appear on the Adopt page, foster forms on the Foster page, and so on. Submissions from these forms land in your Communications inbox, where your team can review, assign, and respond to them.
+
+## Desktop and phone layouts
+
+Your public website is responsive by default. RescueConsole generates both the desktop and phone layouts from the same data — there is no separate mobile theme to manage and no additional work required to make your site work on phones.
+
+## Embedding adoptable animals on your existing site
+
+If your rescue already has a website you want to keep, you don't have to switch. RescueConsole provides an embed snippet that puts your adoptable-animals grid on any page of your existing site.
+
+<Tip>
+  The embed snippet is the best option for rescues that have an established website with existing SEO, donor recognition, or integrations they don't want to rebuild. The animals grid stays in sync with your RescueConsole data automatically — mark an animal public and it appears in the embed within seconds.
+</Tip>
+
+To get the snippet:
+
+1. Go to **Settings → Public website**.
+2. Scroll to the **Embed** section.
+3. Copy the snippet and paste it into the HTML of the page on your existing site where you want the animals grid to appear.
+
+The embed respects your branding settings and only shows animals you've marked public.

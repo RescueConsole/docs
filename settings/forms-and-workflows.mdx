@@ -1,0 +1,121 @@
+---
+title: "Building Forms and Automating Workflows in RescueConsole"
+sidebarTitle: "Forms & Workflows"
+description: "Build adoption, foster, and volunteer forms for your public site, then automate processes with checklists that create tasks and trigger status changes."
+---
+
+Forms and workflows are two halves of the same system: forms collect information from applicants and donors, and workflows turn your internal processes into structured checklists that run on the record. Together, they reduce the number of things your team has to remember to do and keep every application and intake moving through the same steps every time.
+
+---
+
+## Forms
+
+### What forms you can build
+
+RescueConsole lets you build public-facing forms for any of these purposes:
+
+- **Adoption application** — lets applicants express interest in specific animals
+- **Foster application** — collects household details and foster experience
+- **Volunteer sign-up** — gathers availability, interests, and background consent
+- **Surrender intake** — captures an animal's history before it arrives
+- **Donor form** — takes one-time or recurring gifts with your Stripe account
+
+Each form lives on your public website automatically once you publish it, and you can build as many versions as you need (for example, a dog adoption form and a cat adoption form with different questions).
+
+### Building a form
+
+<Tip>
+  RescueConsole ships starter forms for adoption, foster, volunteering, and donation on your first setup. Start from a starter and customize rather than building from scratch — the common fields and sections are already in place.
+</Tip>
+
+1. Go to **Settings → Forms** and click **New form**.
+2. Choose the form type and give it a name.
+3. Add sections to organize your questions, then add fields inside each section.
+4. For each field, set the label, optional help text, and whether the field is required.
+5. Drag fields up or down within a section to reorder them.
+6. Toggle **Published** when the form is ready to appear on your public website.
+
+### Letting applicants choose which animals they are interested in
+
+On adoption and foster forms, you can add a field that shows your currently listed (public) animals and lets the applicant tick the ones they are asking about. When the submission arrives, it links automatically to the animal records the applicant selected — no manual matching needed.
+
+### Application stages
+
+Applications move through stages before you make a final decision. The built-in stages are:
+
+- **Assigned** — the application has been given to a coordinator
+- **Pending third party** — waiting on a landlord, vet reference, or other external check
+- **Hold for better match** — the applicant is viable but another placement takes priority
+
+You can add your own stages under **Settings → Applications**. Stages appear on the pipeline view, the applications list, and the submission card, and you can move an application between stages from any of those places.
+
+### Where submissions go
+
+Every form submission lands in your Communications inbox with the answers, the linked person record, and the linked animal records. From the submission page you can:
+
+- Read the full application
+- Assign it to a team member
+- Add follow-up tasks
+- Start a workflow
+- Send a reply directly to the applicant
+- Approve or reject with a note
+
+---
+
+## Workflows and checklists
+
+A workflow is a checklist that runs on a record — animal, person, or application. Each step in the checklist represents something your team needs to do or verify, and completing a step can trigger actions automatically: creating a task, changing a status, or sending a message template.
+
+### What a step can do
+
+Each step in a workflow is one of two types:
+
+<CardGroup cols={2}>
+  <Card title="Task step" icon="square-check">
+    Creates a task on the record when the workflow reaches that step. The task shows up on the dashboard agenda and on the record itself, with an assignee and due date if you set them.
+  </Card>
+  <Card title="Pass/Fail check" icon="circle-question">
+    Presents a question your team answers Pass, Fail, or Not Applicable. You decide what happens on a fail — for example, a failed health check can change the animal's status to Medical and notify the vet coordinator.
+  </Card>
+</CardGroup>
+
+A step can also:
+
+- **Change a status** automatically when it is marked complete
+- **Send a message template** to the person or animal's contact on completion
+
+### Creating a workflow
+
+<Steps>
+  <Step title="Open Workflow settings">
+    Go to **Settings → Workflows** and click **New workflow**.
+  </Step>
+  <Step title="Name and categorize it">
+    Give the workflow a name your team will recognize (for example, "Dog Intake Checklist"). Choose what the workflow is for: volunteering, fostering, adopting, giving, or a general animal or person process.
+  </Step>
+  <Step title="Add steps">
+    Click **Add step** and choose whether it is a task or a pass/fail check. Write the step name and any instructions your team needs. For pass/fail steps, configure what a fail triggers.
+  </Step>
+  <Step title="Set automatic triggers (optional)">
+    Turn on **Start automatically when a form is received** to have this workflow launch the moment a matching form submission arrives — no coordinator needs to start it manually.
+  </Step>
+  <Step title="Publish">
+    Toggle the workflow to **Active**. It now appears in the **Start a workflow** menu on any matching record or submission.
+  </Step>
+</Steps>
+
+### Starter checklists
+
+<Tip>
+  On your first setup, RescueConsole adds starter checklists for common processes — intake, adoption, fostering, and volunteering. Each starter checklist also has a starter form that triggers it automatically. Review these before building from scratch; they cover the steps most rescues need and can be edited rather than replaced.
+</Tip>
+
+### Checklists that start themselves
+
+A workflow can be configured to start the moment a specific form is received. For example, your volunteer sign-up form can automatically launch the volunteer onboarding checklist the moment someone submits it — the first task is already waiting in the queue before any coordinator has looked at the inbox.
+
+To set this up, open the workflow in **Settings → Workflows** and toggle **Auto-start on form submission**, then choose which form type triggers it.
+
+### Running a workflow on a record
+
+From any animal, person, or application record, click **Start a workflow** (or use the action menu). Choose the checklist you want to run. The checklist appears on the record and the first task (if any) is created immediately. Work through the steps in order — the record's activity log tracks every step completion and any actions they triggered.

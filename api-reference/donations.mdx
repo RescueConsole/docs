@@ -1,0 +1,263 @@
+---
+title: "Donations API: List, Record, and Filter Gift Records"
+sidebarTitle: "Donations"
+description: "List, filter, and record donations in the Fundraising workspace — one-off gifts, recurring pledges, and post-adoption contributions."
+---
+
+The Donations API connects to the Fundraising workspace, where every gift your organization receives lives alongside the donor who gave it, the campaign it supports, and optionally the animal that inspired it. Use this API to pull donation history into external reporting tools, sync gifts recorded elsewhere into RescueConsole, or build custom fundraising dashboards that read live data from your rescue.
+
+<Note>
+  Donations recorded through the API are created with the `paymentMethod` you specify in the request body. They do not flow through Stripe or any other payment processor — no money moves, and no payment is initiated. If you need a donor to pay online, use the payment link flow in the app or the Stripe integration. Use the API to record gifts that have already been collected (cash, check, or an external processor) so your ledger stays complete.
+</Note>
+
+---
+
+## List Donations
+
+Retrieve a paginated list of donation records. Use filters to narrow by donor, campaign, date, or donation type.
+
+```http
+GET /donations
+```
+
+### Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number to retrieve.
+</ParamField>
+
+<ParamField query="perPage" type="integer" default="25">
+  Number of records per page. Maximum `100`.
+</ParamField>
+
+<ParamField query="donorId" type="string">
+  Filter to donations from a specific person record. Pass the person's ID.
+</ParamField>
+
+<ParamField query="campaignId" type="string">
+  Filter to donations attributed to a specific campaign.
+</ParamField>
+
+<ParamField query="type" type="string">
+  Filter by donation type. One of `one-off`, `recurring`, or `post-adoption`.
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  Return only donations on or after this date. Format: `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  Return only donations on or before this date. Format: `YYYY-MM-DD`.
+</ParamField>
+
+<ParamField query="animalId" type="string">
+  Filter to donations attributed to a specific animal record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/donations?type=one-off&dateFrom=2026-09-01&dateTo=2026-09-30" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "don_01hz7p4nqr8vcd2kef3ab5wx",
+      "donorId": "pers_01hy2a4bnq7c9wd3km8ex5rp",
+      "amount": 50.00,
+      "currency": "USD",
+      "type": "one-off",
+      "campaignId": "camp_01hw9z1kqp2f8vbn3tj7yd5m",
+      "animalId": "anim_01hx9z3kqp4f8vbn2tj7yd6m",
+      "paymentMethod": "card",
+      "gateway": "stripe",
+      "gatewayTransactionId": "ch_3NkLmP2eZvKYlo2C0abc1234",
+      "date": "2026-09-14",
+      "notes": null,
+      "createdAt": "2026-09-14T15:30:00Z"
+    }
+  ],
+  "meta": {
+    "total": 67,
+    "page": 1,
+    "perPage": 25,
+    "totalPages": 3
+  }
+}
+```
+
+---
+
+## Retrieve a Donation
+
+Fetch the full record for a single donation by ID.
+
+```http
+GET /donations/{id}
+```
+
+### Path Parameters
+
+<ParamField path="id" type="string" required>
+  The unique ID of the donation record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X GET "https://your-org.rescueconsole.com/api/v1/donations/don_01hz7p4nqr8vcd2kef3ab5wx" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Response Fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for this donation record.
+</ResponseField>
+
+<ResponseField name="donorId" type="string">
+  The ID of the person record for the donor.
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Gift amount as a decimal number (e.g. `50.00`).
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Three-letter ISO 4217 currency code (e.g. `USD`, `CAD`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The donation type. One of `one-off` (a single gift), `recurring` (a pledge on a schedule), or `post-adoption` (an additional gift made at adoption checkout).
+</ResponseField>
+
+<ResponseField name="campaignId" type="string">
+  The ID of the campaign this donation is attributed to. May be `null` if the gift is not tied to a campaign.
+</ResponseField>
+
+<ResponseField name="animalId" type="string">
+  The ID of the animal this donation is attributed to. May be `null`.
+</ResponseField>
+
+<ResponseField name="paymentMethod" type="string">
+  How the gift was paid. Common values: `card`, `cash`, `check`, `bank_transfer`, `other`.
+</ResponseField>
+
+<ResponseField name="gateway" type="string">
+  The payment processor used, if any. Common values: `stripe`, `square`, `zeffy`, `paypal`. May be `null` for cash or check gifts.
+</ResponseField>
+
+<ResponseField name="gatewayTransactionId" type="string">
+  The transaction ID from the payment processor. Use this for reconciliation. May be `null`.
+</ResponseField>
+
+<ResponseField name="date" type="string (date)">
+  The date the gift was made, in `YYYY-MM-DD` format.
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Internal notes about this donation. May be `null`.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string (ISO 8601)">
+  Timestamp when the record was created in RescueConsole.
+</ResponseField>
+
+---
+
+## Record a Donation
+
+Create a new donation record. Use this to log gifts collected outside of RescueConsole — cash, check, or an external payment processor.
+
+```http
+POST /donations
+```
+
+### Request Body
+
+<ParamField body="donorId" type="string" required>
+  The ID of the person record for the donor. The person must already exist in RescueConsole.
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  Gift amount as a decimal number (e.g. `25.00`). Must be greater than `0`.
+</ParamField>
+
+<ParamField body="currency" type="string" default="USD">
+  Three-letter ISO 4217 currency code. Defaults to your organization's configured currency if omitted.
+</ParamField>
+
+<ParamField body="type" type="string" required>
+  Donation type. One of `one-off`, `recurring`, or `post-adoption`.
+</ParamField>
+
+<ParamField body="date" type="string" required>
+  The date the gift was made, in `YYYY-MM-DD` format.
+</ParamField>
+
+<ParamField body="paymentMethod" type="string" required>
+  How the gift was paid. Use `card`, `cash`, `check`, `bank_transfer`, or `other`.
+</ParamField>
+
+<ParamField body="campaignId" type="string">
+  The ID of the campaign to attribute this gift to. Omit if the gift is not tied to a campaign.
+</ParamField>
+
+<ParamField body="animalId" type="string">
+  The ID of the animal to attribute this gift to. Omit if not applicable.
+</ParamField>
+
+<ParamField body="gateway" type="string">
+  The payment processor used, if any. For example, `stripe`, `square`, `zeffy`, `paypal`. Omit for cash or check gifts.
+</ParamField>
+
+<ParamField body="gatewayTransactionId" type="string">
+  The transaction ID from your payment processor. Include this to support reconciliation.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Internal notes to attach to this donation record.
+</ParamField>
+
+### Example Request
+
+```bash
+curl -X POST "https://your-org.rescueconsole.com/api/v1/donations" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "donorId": "pers_01hy2a4bnq7c9wd3km8ex5rp",
+    "amount": 100.00,
+    "currency": "USD",
+    "type": "one-off",
+    "date": "2026-09-17",
+    "paymentMethod": "check",
+    "campaignId": "camp_01hw9z1kqp2f8vbn3tj7yd5m",
+    "notes": "Check #1042 received at adoption event."
+  }'
+```
+
+### Response
+
+Returns `201 Created` with the full donation record as the response body.
+
+---
+
+## Donation Types Reference
+
+<Accordion title="one-off">
+  A single gift with no recurrence. The most common type. Use this for cash, check, one-time card gifts processed outside Stripe, and any gift that does not repeat on a schedule.
+</Accordion>
+
+<Accordion title="recurring">
+  A gift on a repeating schedule — monthly, quarterly, or annually. Recording a recurring donation via the API creates a single instance; it does not automatically generate future records. Log each installment separately as it is received.
+</Accordion>
+
+<Accordion title="post-adoption">
+  An additional voluntary contribution made at the time of an adoption. Adoption fee transactions processed through Stripe's payment link flow are created automatically — use this type only when recording a post-adoption gift collected outside the payment link.
+</Accordion>
